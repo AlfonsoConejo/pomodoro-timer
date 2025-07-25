@@ -1,6 +1,49 @@
+:root {
+    --purple: #8a8aff;
+    --header-white: #f5f5f5;
+}
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body{
+    background-color: #f5f5f5;
+}
+
+/*Efecto de cristal*/
+.glass {
+  background: rgba(255, 255, 255, 0); /* Fondo blanco translúcido */
+  backdrop-filter: blur(10px);          /* Difumina lo que está detrás */
+  -webkit-backdrop-filter: blur(10px);  /* Soporte para Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+  border-radius: 12px;                  /* Bordes redondeados (opcional) */
+}
+
+.header {
+    background-color: var(--header-white);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: start;
+    align-items: center;
+    padding: 16px 24px;
+}
+
+.header > img {
+    width: 32px;
+    height: 32px;
+}
+
+.header > p {
+    padding-left: 5px;
+    font-family: "Luckiest Guy", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--purple);
+    font-size: 30px;
 }
