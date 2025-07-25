@@ -1,6 +1,7 @@
 :root {
     --purple: #8a8aff;
     --header-white: #f5f5f5;
+    --dark-grey: #323232;
 }
 
 * {
@@ -11,6 +12,7 @@
 
 body{
     background-color: #f5f5f5;
+    font-family: 'roboto', sans-serif;
 }
 
 /*Efecto de cristal*/
@@ -46,4 +48,22 @@ body{
     font-style: normal;
     color: var(--purple);
     font-size: 30px;
+}
+
+footer {
+    background-color: var(--dark-grey);
+    color: white;
+    font-size: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+footer img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin: 0 4px;
 }
