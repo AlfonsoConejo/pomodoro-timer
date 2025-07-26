@@ -26,6 +26,12 @@ body{
   border-radius: 12px;                  /* Bordes redondeados (opcional) */
 }
 
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* ocupa toda la altura de la ventana */
+}
+
 .header {
     background-color: var(--header-white);
     width: 100%;
@@ -65,6 +71,7 @@ footer {
 .main{
     position: relative;
     padding-bottom: 20px;
+    flex: 1;
 }
 
 .floating-button-wrapper{
