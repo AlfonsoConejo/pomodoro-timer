@@ -86,7 +86,6 @@ footer {
     flex: 1;
 }
 
-
 .mensajeSinPomodoros{
     position: absolute;
     top: 40%;
@@ -101,7 +100,136 @@ footer {
     color: var(--soft-gray-font);
     background-color: var(--soft-gray);
 }
+/*FORMULARIO NUEVO POMODORO*/
 
+.formularioNuevoPomodoro{
+    position: fixed;
+    top:0;
+    right: 0;
+    height: 100%;
+    min-width: 500px;
+    max-width: 500px;
+    background-color: var(--soft-gray);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);  /* Oculto al inicio */
+    transition: transform .3s ease, opacity .3s ease;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+.formularioNuevoPomodoro.abierto {
+  transform: translateX(0);  /* Se muestra */
+}
+
+.formularioNuevoPomodoro.cerrado {
+  transform: translateX(100%);  /* Se oculta */
+}
+
+.cerrarPanel{
+    cursor: pointer;
+}
+
+.contenidoFormulario{
+    padding: 24px;
+    flex: 1;
+}
+
+.tituloPanel{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.tituloPanel .material-symbols-outlined {
+  font-size: 24px;       /* ajusta el tamaño del ícono para que combine con el h2 */
+  cursor: pointer;
+  user-select: none;
+}
+
+.contenidoFormulario h3 {
+    border-bottom: 5px var(--purple) solid;
+    width: max-content;
+    margin-bottom: 20px;
+} 
+
+.contenedorDuracionPomodoro{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+/*DISEÑO DEL FORMULARIO AL ESTILO MATERIAL DESIGN*/
+
+.campoMaterial {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.contenedorDuracionPomodoro > .campoMaterial {
+  flex: 1;
+}
+
+.inputTiempo{
+    display: flex;
+    flex-direction: column;
+}
+
+.campoMaterial input {
+  width: 100%;
+  padding: 16px 12px 8px;
+  font-size: 16px;
+  border: 1px solid var(--soft-gray, #ccc);
+  border-radius: 4px;
+  outline: none;
+  background: none;
+  outline: 1px solid var(--dark-gray);
+  
+}
+
+.campoMaterial label {
+  position: absolute;
+  left: 12px;
+  top: -8px;
+  background-color: var(--soft-gray);
+  padding: 0 4px;
+  color: var(--gray, #666);
+  pointer-events: none;
+  transition: 0.2s ease all;
+  opacity: 1;
+  font-size: 14px;
+}
+
+/* Cuando el input está enfocado o tiene texto */
+.campoMaterial input:focus + label,
+.campoMaterial input:focus + label + .sufijo {
+  color: var(--primary, #6200ee);
+}
+/* Estilo al enfocar */
+.campoMaterial input:focus {
+  border-color: var(--primary, #6200ee);
+}
+
+.contenedorDuracionPomodoro .sufijo {
+  position:absolute;
+  left: 12px;
+  bottom: -8px;
+  color: var(--gray, #666);
+  background-color: var(--soft-gray);
+  font-size: 14px;
+  padding: 0 4px;
+}
+
+/*Estilo de los inputs dentro de contenedorDuracionPomodoro*/
+.contenedorDuracionPomodoro input{
+  padding: 16px 12px 10px;
+}
+
+/*BOTÓN FLOTANTE PARA CREAR NUEVA SESIÓN*/
 .floating-button-wrapper{
     position: sticky;
     bottom: 20px;

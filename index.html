@@ -16,8 +16,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!--Google fonts Luckiest Guy-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=add" />
+    <!--Google Icons-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
     <title>Pomodoro</title>
 
     <!--Iniciamos nuestro código JS-->
@@ -42,9 +43,61 @@
                 <!--Acá se insertan dinámicamente todas las sesiones pomodoro existentes-->
             </div>
 
+            <!-- Panel lateral -->
+            <div class="formularioNuevoPomodoro" id="formularioNuevoPomodoro">
+                <div class="contenidoFormulario">
+                    <div class="tituloPanel">
+                        <span class="material-symbols-outlined cerrarPanel" id="cerrarPanel">close</span>
+                        <h2>Nueva Sesión Pomodoro</h2>
+                    </div>
+                    
+                    <form>
+                        <h3>General</h3>
+
+                        <div class="campoMaterial">
+                            <input type="text" id="nombre" placeholder="Ej: Estudiar biología" required>
+                            <label for="nombre">Nombre de la sesión</label>
+                        </div>
+
+                    <h3>Duración</h3>
+                    
+                    <div class="contenedorDuracionPomodoro">
+                            <div class="campoMaterial inputTiempo">
+
+                                <input type="number" id="pomodoro" value="25" placeholder="">
+                                <label for="pomodoro">Pomodoro</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">
+                                
+                                <input type="number" id="descansoCorto" value="5" placeholder="">
+                                <label for="descansoCorto">Descanso corto</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">
+                                
+                                <input type="number" id="descansoLargo" value="10" placeholder="">
+                                <label for="descansoLargo">Descanso largo</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+                    </div>
+
+                    <!-- Agrega lo que necesites -->
+
+                    <h3>Fondo</h3>
+                    <div class="contenedorFondos">
+                        
+                    </div>
+                    
+                    <button type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div>
 
             <div class="floating-button-wrapper">
-                <button class="floating-button glass"> 
+                <button class="floating-button glass" id="btnNuevaSesion"> 
                     <span class="material-symbols-outlined">
                     add
                     </span>
