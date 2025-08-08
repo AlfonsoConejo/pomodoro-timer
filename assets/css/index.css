@@ -106,7 +106,7 @@ footer {
     position: fixed;
     top:0;
     right: 0;
-    height: 100%;
+    height: 100vh;
     min-width: 500px;
     max-width: 500px;
     background-color: var(--soft-gray);
@@ -131,15 +131,29 @@ footer {
 }
 
 .contenidoFormulario{
-    padding: 24px;
-    flex: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 5px 20px 5px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .tituloPanel{
+    flex-shrink: 0; /* Que no se reduzca */
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 24px;
+    padding: 0px 5px 0px 5px;
+    margin-bottom: 20px;
+}
+
+.contenidoFormulario form {
+  flex: 1; /* 👈 ocupa todo el espacio disponible debajo del título */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .tituloPanel .material-symbols-outlined {
@@ -160,9 +174,52 @@ footer {
     width: 100%;
 }
 
+.contenedorFondos{
+  flex-wrap: wrap;
+  display:flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.miniaturaFondo {
+  box-sizing: border-box;
+  width: calc(33.333% - 5px); /* o el valor que coincida con tu gap */
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  border: 3px solid #ccc; /* opcional, para ver su contorno */
+  border-radius: 8px; /* opcional, si quieres bordes redondeados */
+  cursor: pointer; /* opcional, si vas a hacer que sea clickeable */
+}
+
+.miniaturaFondo.seleccionada{
+  border: 3px solid var(--purple);
+}
+
+.contenedorBotonGuardar{
+display: flex;
+width: 100%;
+justify-content: center;
+}
+
+.contenedorBotonGuardar button{
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background-color: var(--purple);
+    color: var(--white);
+    padding: 10px;
+    font-size: 20px;
+    height: 50px;
+    width: 170px;
+    cursor: pointer;
+}
+
 /*DISEÑO DEL FORMULARIO AL ESTILO MATERIAL DESIGN*/
 
 .campoMaterial {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 6px;

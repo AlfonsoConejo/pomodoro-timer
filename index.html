@@ -62,36 +62,35 @@
                     <h3>Duración</h3>
                     
                     <div class="contenedorDuracionPomodoro">
-                            <div class="campoMaterial inputTiempo">
+                        <div class="campoMaterial inputTiempo">
+                            <input type="number" id="pomodoro" value="25" placeholder="">
+                            <label for="pomodoro">Pomodoro</label>
+                            <span class="sufijo">Minutos</span>
+                        </div>
 
-                                <input type="number" id="pomodoro" value="25" placeholder="">
-                                <label for="pomodoro">Pomodoro</label>
-                                <span class="sufijo">Minutos</span>
-                            </div>
+                        <div class="campoMaterial inputTiempo">        
+                            <input type="number" id="descansoCorto" value="5" placeholder="">
+                            <label for="descansoCorto">Descanso corto</label>
+                            <span class="sufijo">Minutos</span>
+                        </div>
 
-                            <div class="campoMaterial inputTiempo">
-                                
-                                <input type="number" id="descansoCorto" value="5" placeholder="">
-                                <label for="descansoCorto">Descanso corto</label>
-                                <span class="sufijo">Minutos</span>
-                            </div>
-
-                            <div class="campoMaterial inputTiempo">
-                                
-                                <input type="number" id="descansoLargo" value="10" placeholder="">
-                                <label for="descansoLargo">Descanso largo</label>
-                                <span class="sufijo">Minutos</span>
-                            </div>
+                        <div class="campoMaterial inputTiempo">
+                            <input type="number" id="descansoLargo" value="10" placeholder="">
+                            <label for="descansoLargo">Descanso largo</label>
+                            <span class="sufijo">Minutos</span>
+                        </div>
                     </div>
-
-                    <!-- Agrega lo que necesites -->
 
                     <h3>Fondo</h3>
-                    <div class="contenedorFondos">
-                        
+
+                    <div class="contenedorFondos" id="contenedorFondos">
+
                     </div>
                     
-                    <button type="submit">Guardar</button>
+                    <div class="contenedorBotonGuardar">
+                        <button type="submit">Guardar</button>
+                    </div>
+                    
                     </form>
                 </div>
             </div>
