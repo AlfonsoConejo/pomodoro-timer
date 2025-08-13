@@ -44,18 +44,18 @@
             </div>
 
             <!-- Panel lateral -->
-            <div class="formularioNuevoPomodoro" id="formularioNuevoPomodoro">
+            <div class="panelNuevoPomodoro" id="panelNuevoPomodoro">
                 <div class="contenidoFormulario">
                     <div class="tituloPanel">
                         <span class="material-symbols-outlined cerrarPanel" id="cerrarPanel">close</span>
                         <h2>Nueva Sesión Pomodoro</h2>
                     </div>
                     
-                    <form>
+                    <form id="formularioNuevoPomodoro">
                         <h3>General</h3>
 
                         <div class="campoMaterial">
-                            <input type="text" id="nombre" placeholder="Ej: Estudiar biología" required>
+                            <input type="text" id="nombreSesion" name="nombreSesion" placeholder="Ej: Estudiar biología" required>
                             <label for="nombre">Nombre de la sesión</label>
                         </div>
 
@@ -63,19 +63,19 @@
                     
                     <div class="contenedorDuracionPomodoro">
                         <div class="campoMaterial inputTiempo">
-                            <input type="number" id="pomodoro" value="25" placeholder="">
+                            <input type="number" id="pomodoro" name="pomodoro" value="25" placeholder="">
                             <label for="pomodoro">Pomodoro</label>
                             <span class="sufijo">Minutos</span>
                         </div>
 
                         <div class="campoMaterial inputTiempo">        
-                            <input type="number" id="descansoCorto" value="5" placeholder="">
+                            <input type="number" id="descansoCorto" name="descansoCorto" value="5" placeholder="">
                             <label for="descansoCorto">Descanso corto</label>
                             <span class="sufijo">Minutos</span>
                         </div>
 
                         <div class="campoMaterial inputTiempo">
-                            <input type="number" id="descansoLargo" value="10" placeholder="">
+                            <input type="number" id="descansoLargo" name="descansoLargo" value="10" placeholder="">
                             <label for="descansoLargo">Descanso largo</label>
                             <span class="sufijo">Minutos</span>
                         </div>

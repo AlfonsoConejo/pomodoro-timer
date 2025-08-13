@@ -102,7 +102,7 @@ footer {
 }
 /*FORMULARIO NUEVO POMODORO*/
 
-.formularioNuevoPomodoro{
+.panelNuevoPomodoro{
     position: fixed;
     top:0;
     right: 0;
@@ -118,11 +118,11 @@ footer {
     flex-direction: column;
 }
 
-.formularioNuevoPomodoro.abierto {
+.panelNuevoPomodoro.abierto {
   transform: translateX(0);  /* Se muestra */
 }
 
-.formularioNuevoPomodoro.cerrado {
+.panelNuevoPomodoro.cerrado {
   transform: translateX(100%);  /* Se oculta */
 }
 

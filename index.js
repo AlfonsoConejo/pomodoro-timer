@@ -1,3 +1,6 @@
+import Pomodoro from "./assets/js/pomodoro.js";
+import PomodoroManager from "./assets/js/pomodoro_manager.js";
+
 const arrayfondos= [
     {id:1 , location: "./assets/fondos/17018-4k.jpg"},
     {id:2 , location: "./assets/fondos/202797.jpg"},
@@ -10,11 +13,43 @@ const arrayfondos= [
     {id:9 , location: "./assets/fondos/mountains-fog-trees.jpg"}
 ];
 
+const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
+formularioNuevoPomodoro.addEventListener('submit', (e)=>{
+    //Evitamos que el botón haga sus operaciones por defecto para poner nuestra lógica
+    e.preventDefault();
+
+    /*Obtenemos todos los campos de nuestro formulario a través de su propiedad NAME*/
+    const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
+    const nombreSesion = formularioNuevoPomodoro.nombreSesion.value;
+    const tiempoPomodoro = parseInt(formularioNuevoPomodoro.pomodoro.value);
+    const tiempoDescansoCorto = parseInt(formularioNuevoPomodoro.descansoCorto.value);
+    const tiempoDescansoLargo = parseInt(formularioNuevoPomodoro.descansoLargo.value);
+    const fondoSeleccionado = document.querySelector(".miniaturaFondo.seleccionada")?.dataset.imagenId;
+    //Metemos nuestros datos a nuestro objeto Pomodoro
+    const nuevoPomodoro = new Pomodoro(nombreSesion, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo, fondoSeleccionado);
+    ///Instanciamos al manager para poder enviar nuestros datos al local storage
+    const manager = new PomodoroManager();
+    manager.agregarPomodoro(nuevoPomodoro);
+    //Regresamos todos los campos del formulario a su estado original
+    formularioNuevoPomodoro.reset();
+    resetearSelecciónFondo();
+    /*Cerramos el panel del formulario*/
+    panelNuevoPomodoro.classList.remove('abierto');
+});
+
+//Función para resetear la selección del fondo en el formulario
+function resetearSelecciónFondo(){
+    //Obtenemos todos los elementos que se llamen miniaturaFondo
+    const miniaturasFondos = document.querySelectorAll('.miniaturaFondo');
+    miniaturasFondos.forEach(div => {div.classList.remove('seleccionada')});
+    const miniaturaPorDefecto = contenedorFondos.querySelector('.miniaturaFondo[data-imagen-id="1"]');
+    if (miniaturaPorDefecto) miniaturaPorDefecto.classList.add('seleccionada');
+}
+
 let listaPomodoros = JSON.parse(localStorage.getItem('listaPomodoros')) || '';
 
 if(listaPomodoros === '' || listaPomodoros.length === 0){
-    let mainDiv = document.getElementById('main');
-    let mensajeSinPomodoros = document.getElementById("mensajeSinPomodoros");
+
 } else {
     
 }
@@ -22,7 +57,7 @@ if(listaPomodoros === '' || listaPomodoros.length === 0){
 //Obtenemos del DOM los valores para manipular la ventana modal de "Nueva sesión"
 const botonNuevaSesion = document.getElementById('btnNuevaSesion');
 const botonCerrarPanel = document.getElementById('cerrarPanel');
-const panel = document.getElementById('formularioNuevoPomodoro');
+const panel = document.getElementById('panelNuevoPomodoro');
 const contenedorFondos = document.getElementById('contenedorFondos');
 
 let fondosCargados = '';
@@ -37,13 +72,21 @@ arrayfondos.forEach(imagen => {
 
     fondosCargados = fondosCargados + nuevoFondoCargado;
 
-    contenedorFondos.innerHTML= fondosCargados;
+    
 });
+//Cargamos al DOM todos nuestros fondos
+contenedorFondos.innerHTML= fondosCargados;
+
+//Delegación de eventos para saber si un elemento fue clickado
+/*    contenedorFondos.addEventListener('click', (e)=>{
+        if(e.target.classList = 'miniaturaFondo'){
+            console.log(`Imagen seleccionada ${e.target.dataset.imagenId}`);
+        }
+    });
+    */
 
 //Obtenemos todos los elementos que se llamen miniaturaFondo
 const miniaturasFondos = document.querySelectorAll('.miniaturaFondo'); 
-
-
 // Buscar la miniatura con id = 1 y marcarla como seleccionada
 const miniaturaPorDefecto = [...miniaturasFondos].find(
   m => m.dataset.imagenId === '1'
@@ -53,7 +96,7 @@ const miniaturaPorDefecto = [...miniaturasFondos].find(
 if (miniaturaPorDefecto) {
   miniaturaPorDefecto.classList.add('seleccionada');
 }
-
+//Al hacer clic sobre un fondo deseleccionamos todos y marcamos el nuevo fondo seleccionado
 miniaturasFondos.forEach(miniatura => {
     miniatura.addEventListener('click', (e) => {
         const id = e.currentTarget.dataset.imagenId;
@@ -61,22 +104,21 @@ miniaturasFondos.forEach(miniatura => {
         miniaturasFondos.forEach(imagen => {
             imagen.classList.remove('seleccionada');
         });
-        console.log(`Hiciste clic en la imagen con ID: ${id}`);
         miniatura.classList.add('seleccionada');
     });
 });
 
-//Ejecutamos una acción al hacer click sobre el botón de "Nueva sesión"
+//Abrimos el panel al hacer click sobre el botón de "Nueva sesión"
 botonNuevaSesion.addEventListener('click', ()=>{
     panel.classList.add('abierto');
 });
 
-//Ejecutamos acción al cerrar la ventana modal de "Nueva sesión"
+//Cerramos el panel
 botonCerrarPanel.addEventListener('click', ()=>{
     panel.classList.remove('abierto');
 });
 
-//Cerramos la modal el presionar ESC
+//Cerramos el panel al presionar ESC
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
     panel.classList.remove('abierto');
