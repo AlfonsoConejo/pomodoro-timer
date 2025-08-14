@@ -308,6 +308,19 @@ footer {
   justify-content: center;
 }
 
+.contenedorBotonGuardar button{
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background-color: var(--purple);
+    color: var(--white);
+    padding: 10px;
+    font-size: 20px;
+    height: 50px;
+    width: 170px;
+    cursor: pointer;
+}
+
+
 /*DISEÑO DEL FORMULARIO AL ESTILO MATERIAL DESIGN*/
 
 .campoMaterial {
