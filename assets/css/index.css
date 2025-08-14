@@ -59,17 +59,6 @@ body{
     font-size: 30px;
 }
 
-footer {
-    background-color: var(--dark-gray);
-    color: var(--white);
-    font-size: 18px;
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
 .main{
     flex: 1;
     display: flex;
@@ -418,6 +407,17 @@ footer {
     cursor: pointer;
 }
 
+footer {
+    background-color: var(--dark-gray);
+    color: var(--white);
+    font-size: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 footer img {
     width: 20px;
     height: 20px;
@@ -459,3 +459,9 @@ footer img {
 
 }
 
+@media (max-width: 609px){
+  footer {
+    flex-direction: column;
+    gap:10px;
+  }
+}
