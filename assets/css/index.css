@@ -116,7 +116,9 @@ footer {
 .contenedorMiniaturasSesiones{
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Siempre 3 columnas iguales */
+  grid-template-columns: repeat(4, 1fr); /* Siempre 4 columnas iguales */
+  grid-auto-rows: 200px;
+  align-items: start; /* Evita que todas las celdas se estiren a la misma altura */
   gap: 12px; /* Espacio entre filas y columnas */
   padding-top: 16px;
   
