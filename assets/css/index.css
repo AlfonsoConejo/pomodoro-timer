@@ -5,6 +5,7 @@
     --dark-gray: #323232;
     --soft-gray-font:#707070;
     --white: #ffffff;
+    --green-button: #399724;
 }
 
 * {
@@ -60,7 +61,7 @@ body{
 
 footer {
     background-color: var(--dark-gray);
-    color: white;
+    color: var(--white);
     font-size: 18px;
     padding: 20px;
     display: flex;
@@ -79,6 +80,13 @@ footer {
     padding-right: 24px;
     min-height: 80vh;  /* Asegura que ocupa toda la pantalla */
 }
+
+.main > h1 {
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: #1e1e1e; /* un gris oscuro, no negro puro */
+  margin-bottom: 1rem;
+} 
 
 .contenedorSesiones{
     position: relative;
@@ -99,6 +107,94 @@ footer {
     text-align: center;
     color: var(--soft-gray-font);
     background-color: var(--soft-gray);
+}
+
+.mensajeSinPomodoros.desactivado{
+  display: none;
+}
+
+.contenedorMiniaturasSesiones{
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Siempre 3 columnas iguales */
+  gap: 12px; /* Espacio entre filas y columnas */
+  padding-top: 16px;
+  
+}
+
+.contenedorMiniaturasSesiones.desactivado{
+  display: none;
+}
+
+.miniaturaSesion{
+  position: relative;
+  border-radius: 12px;
+  height: 200px;
+  width: 100%; /* que ocupe todo el ancho de su celda */
+  background-size: cover;
+  background-position: center;
+}
+
+.contenedorNombreSesion{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(50, 50, 50, 0.8);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 0px 10px;
+  color: var(--white);
+}
+
+.contenedorNombreSesion > h2 {
+  font-weight: 400;
+}
+
+.contenedorDatosSesion{
+  display: flex;
+  gap:14px;
+  align-items: center;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  background-color: rgba(50, 50, 50, 0.8);
+  padding: 0px 10px;
+  color: var(--white);
+  font-size: 20px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.contenedorDatosSesion .material-symbols-outlined{
+  font-size: 20px;
+}
+
+.mostrarTiempo{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.abrirSesion{
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--white);
+    background-color: var(--green-button);
+    margin: 5px 0px;
+    padding: 6px;
+    height: 35px;
+    width: 150px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contenedorBotonIniciar{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 }
 /*FORMULARIO NUEVO POMODORO*/
 
@@ -289,6 +385,7 @@ justify-content: center;
 /*BOTÓN FLOTANTE PARA CREAR NUEVA SESIÓN*/
 .floating-button-wrapper{
     position: sticky;
+    margin-top: 20px;
     bottom: 20px;
     display: flex;
     justify-content: flex-end;
@@ -315,4 +412,23 @@ footer img {
     height: 20px;
     vertical-align: middle;
     margin: 0 4px;
+}
+
+
+@media (max-width: 1387px){
+  .contenedorMiniaturasSesiones{
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas*/
+  }
+}
+
+@media (max-width: 1050px){
+  .contenedorMiniaturasSesiones{
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  }
+}
+
+@media (max-width: 714px){
+  .contenedorMiniaturasSesiones{
+    grid-template-columns: repeat(1, 1fr); /* 2 columnas */
+  }
 }

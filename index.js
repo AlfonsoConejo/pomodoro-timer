@@ -33,6 +33,8 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     //Regresamos todos los campos del formulario a su estado original
     formularioNuevoPomodoro.reset();
     resetearSelecciónFondo();
+    //Mostramos en el div contenedorSesiones la información correcta 
+    mostrarOcultarSesiones();
     /*Cerramos el panel del formulario*/
     panelNuevoPomodoro.classList.remove('abierto');
 });
@@ -46,13 +48,84 @@ function resetearSelecciónFondo(){
     if (miniaturaPorDefecto) miniaturaPorDefecto.classList.add('seleccionada');
 }
 
-let listaPomodoros = JSON.parse(localStorage.getItem('listaPomodoros')) || '';
+mostrarOcultarSesiones();
 
-if(listaPomodoros === '' || listaPomodoros.length === 0){
+function mostrarOcultarSesiones(){
+    //Escogemos la información que se muestra en el contenedorSesiones
+    let listaPomodoros = JSON.parse(localStorage.getItem('listaPomodoros')) || '';
 
-} else {
-    
+    //Obtenemos del DOM los elementos para manipular alerta y sesiones
+    const mensajeSinPomodoros = document.getElementById('mensajeSinPomodoros');
+    const contenedorMiniaturasSesiones = document.getElementById('contenedorMiniaturasSesiones');
+
+    if(listaPomodoros.length === 0){
+        mensajeSinPomodoros.classList.remove('desactivado');
+        contenedorMiniaturasSesiones.classList.add('desactivado')
+    } else {
+        
+        mensajeSinPomodoros.classList.add('desactivado');
+        contenedorMiniaturasSesiones.classList.remove('desactivado');
+        cargarMiniaturasSesiones();
+    }
 }
+
+function cargarMiniaturasSesiones(){
+    const contenedorMiniaturasSesiones = document.getElementById('contenedorMiniaturasSesiones');
+    const manager = new PomodoroManager();
+    const listaSesiones = manager.lista;
+
+    let allMiniaturasSesiones = ``;
+    listaSesiones.forEach(elemento =>{
+        const idSeleccionado = Number(elemento._fondo); // Convertimos a número para comparar
+        // Buscamos el objeto cuyo id coincida con el seleccionado
+        const fondoEncontrado = arrayfondos.find(fondo => fondo.id === idSeleccionado);
+        // Obtenemos la dirección de la imagen, si encontramos el fondo
+        const direccionImagen = fondoEncontrado ? fondoEncontrado.location : null;
+
+        const nuevaMinuaturaSesion = `
+            <div class="miniaturaSesion" style="background-image: url('${direccionImagen}')">
+                <div class="contenedorNombreSesion">
+                    <h2>${elemento._nombre}</h2>
+                </div>
+
+                <div class="contenedorDatosSesion">
+                    <div class="mostrarTiempo">
+                        <span class="material-symbols-outlined">
+                            lightbulb_2
+                        </span>
+                        ${elemento._tiempoPomodoro}
+                    </div> 
+                    
+                    <div class="mostrarTiempo">
+                        <span class="material-symbols-outlined">
+                            pause
+                        </span>
+                        ${elemento._tiempoDescanso}
+                    </div>
+
+                    <div class="mostrarTiempo">
+                        <span class="material-symbols-outlined">
+                            stop_circle
+                        </span>
+                        ${elemento._tiempoDescansoLargo}
+                    </div>
+                    
+                    <div class="contenedorBotonIniciar">
+                        <div class="abrirSesion">
+                            Iniciar
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        allMiniaturasSesiones = allMiniaturasSesiones + nuevaMinuaturaSesion;
+    });
+
+    //Cargamos todas nuestras miniaturas a nuestro contenedor
+    contenedorMiniaturasSesiones.innerHTML = allMiniaturasSesiones;
+}
+
 
 //Obtenemos del DOM los valores para manipular la ventana modal de "Nueva sesión"
 const botonNuevaSesion = document.getElementById('btnNuevaSesion');
