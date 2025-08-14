@@ -90,24 +90,32 @@ function cargarMiniaturasSesiones(){
 
                 <div class="contenedorDatosSesion">
                     <div class="mostrarTiempo">
-                        
+                        <span class="material-symbols-outlined">
+                            lightbulb_2
+                        </span>
                         ${elemento._tiempoPomodoro}
                     </div> 
                     
                     <div class="mostrarTiempo">
-                        
+                        <span class="material-symbols-outlined">
+                            pause
+                        </span>
                         ${elemento._tiempoDescanso}
                     </div>
 
                     <div class="mostrarTiempo">
-                        
+                        <span class="material-symbols-outlined">
+                            stop_circle
+                        </span>
                         ${elemento._tiempoDescansoLargo}
                     </div>
                     
                     <div class="contenedorBotonIniciar">
                         <div class="abrirSesion">
                             <p>Iniciar</p>
-                            
+                            <span class="material-symbols-outlined">
+                                play_arrow
+                            </span>
                         </div>
                     </div>
                 </div>
