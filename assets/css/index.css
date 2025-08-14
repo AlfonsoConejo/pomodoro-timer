@@ -176,6 +176,7 @@ footer {
   align-items: center;
   justify-content: flex-start;
 }
+
 .abrirSesion{
     font-size: 20px;
     display: flex;
@@ -196,6 +197,13 @@ footer {
   display: flex;
   justify-content: flex-end;
 }
+
+
+.abrirSesion > span{
+  display: none;
+  font-size: 20px;
+}
+
 /*FORMULARIO NUEVO POMODORO*/
 
 .panelNuevoPomodoro{
@@ -295,21 +303,9 @@ footer {
 }
 
 .contenedorBotonGuardar{
-display: flex;
-width: 100%;
-justify-content: center;
-}
-
-.contenedorBotonGuardar button{
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
-    background-color: var(--purple);
-    color: var(--white);
-    padding: 10px;
-    font-size: 20px;
-    height: 50px;
-    width: 170px;
-    cursor: pointer;
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 /*DISEÑO DEL FORMULARIO AL ESTILO MATERIAL DESIGN*/
@@ -429,6 +425,22 @@ footer img {
 
 @media (max-width: 714px){
   .contenedorMiniaturasSesiones{
-    grid-template-columns: repeat(1, 1fr); /* 2 columnas */
+    grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
   }
 }
+
+@media (max-width: 375px){
+  .abrirSesion > p{
+    display: none;
+  }
+
+  .abrirSesion > span{
+    display: block;
+  }
+
+  .abrirSesion{
+    width: 50px;
+  }
+
+}
+

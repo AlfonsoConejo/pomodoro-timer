@@ -112,7 +112,10 @@ function cargarMiniaturasSesiones(){
                     
                     <div class="contenedorBotonIniciar">
                         <div class="abrirSesion">
-                            Iniciar
+                            <p>Iniciar</p>
+                            <span class="material-symbols-outlined">
+                                play_arrow
+                            </span>
                         </div>
                     </div>
                 </div>
