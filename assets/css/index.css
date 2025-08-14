@@ -89,7 +89,7 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     display: block;
-    max-width: 550px;
+    width: 400px;
     padding: 20px;
     border: 1px solid black;
     border-radius: 5px;
@@ -441,6 +441,12 @@ footer img {
 @media (max-width: 714px){
   .contenedorMiniaturasSesiones{
     grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 533px){
+  .mensajeSinPomodoros{
+    width: 90%;
   }
 }
 
