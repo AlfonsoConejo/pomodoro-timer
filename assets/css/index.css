@@ -206,7 +206,7 @@ body{
     max-width: 500px;
     background-color: var(--soft-gray);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%);  /* Oculto al inicio */
+    transform: translateX(105%);  /* Oculto al inicio */
     transition: transform .3s ease, opacity .3s ease;
     z-index: 100;
     display: flex;
