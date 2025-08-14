@@ -122,6 +122,7 @@ body{
   border-radius: 12px;
   height: 200px;
   width: 100%; /* que ocupe todo el ancho de su celda */
+  min-width: 229px;
   background-size: cover;
   background-position: center;
 }
