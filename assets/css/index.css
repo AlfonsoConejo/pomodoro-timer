@@ -203,8 +203,7 @@ body{
     top:0;
     right: 0;
     height: 100vh;
-    min-width: 500px;
-    max-width: 500px;
+    width: 500px;
     background-color: var(--soft-gray);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     transform: translateX(105%);  /* Oculto al inicio */
@@ -470,5 +469,22 @@ footer img {
   footer {
     flex-direction: column;
     gap:10px;
+  }
+}
+
+
+@media (max-width: 550px){
+  .panelNuevoPomodoro {
+    position: fixed;
+    top:0;
+    right: 0;
+    min-width:410px;
+    width: 100%;
+    transform: translateY(105%);
+    box-shadow: none;
+  }
+
+  .panelNuevoPomodoro.abierto {
+    transform: translateY(0);  /* Se muestra */
   }
 }
