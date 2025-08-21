@@ -473,7 +473,7 @@ footer img {
 }
 
 
-@media (max-width: 550px){
+@media (max-width: 535px){
   .panelNuevoPomodoro {
     position: fixed;
     top:0;
@@ -486,5 +486,9 @@ footer img {
 
   .panelNuevoPomodoro.abierto {
     transform: translateY(0);  /* Se muestra */
+  }
+
+  .contenedorDuracionPomodoro{
+    flex-direction: column;
   }
 }
