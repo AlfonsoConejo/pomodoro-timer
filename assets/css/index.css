@@ -478,7 +478,6 @@ footer img {
     position: fixed;
     top:0;
     right: 0;
-    min-width:410px;
     width: 100%;
     transform: translateY(105%);
     box-shadow: none;
@@ -490,5 +489,11 @@ footer img {
 
   .contenedorDuracionPomodoro{
     flex-direction: column;
+  }
+}
+
+@media (max-width: 360px){
+  .miniaturaFondo{
+    height: 70px;
   }
 }
