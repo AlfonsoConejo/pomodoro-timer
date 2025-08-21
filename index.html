@@ -45,6 +45,9 @@
                 <!--Acá se insertan dinámicamente todas las sesiones pomodoro existentes-->
             </div>
 
+            <!--Overlay-->
+            <div id="overlay" class="overlay"></div>
+
             <!-- Panel lateral -->
             <div class="panelNuevoPomodoro" id="panelNuevoPomodoro">
                 <div class="contenidoFormulario">
@@ -65,19 +68,19 @@
                     
                     <div class="contenedorDuracionPomodoro">
                         <div class="campoMaterial inputTiempo">
-                            <input type="number" id="pomodoro" name="pomodoro" value="25" placeholder="">
+                            <input type="number" id="pomodoro" name="pomodoro" value="25" placeholder="" required>
                             <label for="pomodoro">Pomodoro</label>
                             <span class="sufijo">Minutos</span>
                         </div>
 
                         <div class="campoMaterial inputTiempo">        
-                            <input type="number" id="descansoCorto" name="descansoCorto" value="5" placeholder="">
+                            <input type="number" id="descansoCorto" name="descansoCorto" value="5" placeholder="" required>
                             <label for="descansoCorto">Descanso corto</label>
                             <span class="sufijo">Minutos</span>
                         </div>
 
                         <div class="campoMaterial inputTiempo">
-                            <input type="number" id="descansoLargo" name="descansoLargo" value="10" placeholder="">
+                            <input type="number" id="descansoLargo" name="descansoLargo" value="10" placeholder="" required>
                             <label for="descansoLargo">Descanso largo</label>
                             <span class="sufijo">Minutos</span>
                         </div>

@@ -14,12 +14,13 @@ const arrayfondos= [
 ];
 
 const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
+const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
+
 formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     //Evitamos que el botón haga sus operaciones por defecto para poner nuestra lógica
     e.preventDefault();
 
     /*Obtenemos todos los campos de nuestro formulario a través de su propiedad NAME*/
-    const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
     const nombreSesion = formularioNuevoPomodoro.nombreSesion.value;
     const tiempoPomodoro = parseInt(formularioNuevoPomodoro.pomodoro.value);
     const tiempoDescansoCorto = parseInt(formularioNuevoPomodoro.descansoCorto.value);
@@ -184,19 +185,29 @@ miniaturasFondos.forEach(miniatura => {
     });
 });
 
+const overlay = document.getElementById('overlay');
 //Abrimos el panel al hacer click sobre el botón de "Nueva sesión"
 botonNuevaSesion.addEventListener('click', ()=>{
     panel.classList.add('abierto');
+    overlay.style.display='block';
 });
 
 //Cerramos el panel
 botonCerrarPanel.addEventListener('click', ()=>{
     panel.classList.remove('abierto');
+    overlay.style.display='none';
 });
 
 //Cerramos el panel al presionar ESC
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
     panel.classList.remove('abierto');
+    overlay.style.display='none';
   }
+});
+
+//Cerramos el panel si se hace clic en el overlay
+overlay.addEventListener('click', ()=>{
+    panel.classList.remove('abierto');
+    overlay.style.display='none';
 });

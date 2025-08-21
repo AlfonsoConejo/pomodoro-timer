@@ -141,6 +141,9 @@ body{
 
 .contenedorNombreSesion > h2 {
   font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .contenedorDatosSesion{
@@ -194,6 +197,18 @@ body{
 .abrirSesion > span{
   display: none;
   font-size: 20px;
+}
+
+/*Overlay*/
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0);
+  z-index: 99;
+  display: none;
 }
 
 /*FORMULARIO NUEVO POMODORO*/
