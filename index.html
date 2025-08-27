@@ -60,41 +60,40 @@
                         <h3>General</h3>
 
                         <div class="campoMaterial">
-                            <input type="text" id="nombreSesion" name="nombreSesion" placeholder="Ej: Estudiar biología" required>
+                            <input type="text" id="nombreSesion" name="nombreSesion" placeholder="Ej: Estudiar biología" autocomplete="off" required>
                             <label for="nombre">Nombre de la sesión</label>
                         </div>
 
-                    <h3>Duración</h3>
+                         <h3>Duración</h3>
                     
-                    <div class="contenedorDuracionPomodoro">
-                        <div class="campoMaterial inputTiempo">
-                            <input type="number" id="pomodoro" name="pomodoro" value="25" placeholder="" required>
-                            <label for="pomodoro">Pomodoro</label>
-                            <span class="sufijo">Minutos</span>
+                        <div class="contenedorDuracionPomodoro">
+                            <div class="campoMaterial inputTiempo">
+                                <input type="number" id="pomodoro" name="pomodoro" value="25" placeholder="" autocomplete="off" required>
+                                <label for="pomodoro">Pomodoro</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">        
+                                <input type="number" id="descansoCorto" name="descansoCorto" value="5" placeholder="" autocomplete="off" required>
+                                <label for="descansoCorto">Descanso corto</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">
+                                <input type="number" id="descansoLargo" name="descansoLargo" value="10" placeholder="" autocomplete="off" required>
+                                <label for="descansoLargo">Descanso largo</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
                         </div>
 
-                        <div class="campoMaterial inputTiempo">        
-                            <input type="number" id="descansoCorto" name="descansoCorto" value="5" placeholder="" required>
-                            <label for="descansoCorto">Descanso corto</label>
-                            <span class="sufijo">Minutos</span>
+                        <h3>Fondo</h3>
+
+                        <div class="contenedorFondos" id="contenedorFondos">
                         </div>
-
-                        <div class="campoMaterial inputTiempo">
-                            <input type="number" id="descansoLargo" name="descansoLargo" value="10" placeholder="" required>
-                            <label for="descansoLargo">Descanso largo</label>
-                            <span class="sufijo">Minutos</span>
+                        
+                        <div class="contenedorBotonGuardar">
+                            <button type="submit">Guardar</button>
                         </div>
-                    </div>
-
-                    <h3>Fondo</h3>
-
-                    <div class="contenedorFondos" id="contenedorFondos">
-
-                    </div>
-                    
-                    <div class="contenedorBotonGuardar">
-                        <button type="submit">Guardar</button>
-                    </div>
                     
                     </form>
                 </div>
