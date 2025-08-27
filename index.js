@@ -16,6 +16,7 @@ const arrayfondos= [
 const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
 const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
 
+//Envío del formulario al guardar
 formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     //Evitamos que el botón haga sus operaciones por defecto para poner nuestra lógica
     e.preventDefault();
@@ -63,7 +64,6 @@ function mostrarOcultarSesiones(){
         mensajeSinPomodoros.classList.remove('desactivado');
         contenedorMiniaturasSesiones.classList.add('desactivado')
     } else {
-        
         mensajeSinPomodoros.classList.add('desactivado');
         contenedorMiniaturasSesiones.classList.remove('desactivado');
         cargarMiniaturasSesiones();
@@ -130,7 +130,21 @@ function cargarMiniaturasSesiones(){
     contenedorMiniaturasSesiones.innerHTML = allMiniaturasSesiones;
 }
 
+//Validaciones del formulario de Nueva Sesión
+const tiempoPomodoro = document.getElementById("pomodoro");
+tiempoPomodoro.addEventListener('input', ()=>{
+    formatoNumero(tiempoPomodoro);
+});
 
+const descansoCorto = document.getElementById("descansoCorto");
+descansoCorto.addEventListener('input', ()=>{
+    formatoNumero(descansoCorto);
+});
+
+const descansoLargo = document.getElementById("descansoLargo");
+descansoLargo.addEventListener('input', ()=>{
+    formatoNumero(descansoLargo);
+});
 //Obtenemos del DOM los valores para manipular la ventana modal de "Nueva sesión"
 const botonNuevaSesion = document.getElementById('btnNuevaSesion');
 const botonCerrarPanel = document.getElementById('cerrarPanel');
@@ -211,3 +225,24 @@ overlay.addEventListener('click', ()=>{
     panel.classList.remove('abierto');
     overlay.style.display='none';
 });
+
+
+//Evitar que los campos numéricos puedan contener letras o se queden vacíos
+function formatoNumero(campo){
+    if (campo.value.length === 0) {
+      campo.value = '0';
+    } else if (campo.value > 999){
+        campo.value ='999';
+    }
+
+    // Solo mantener números
+    const cadenaCompleta = campo.value.replace(/[^0-9]/g, '');
+    campo.value = cadenaCompleta;
+    //Muestra un 0 en caso de ser necesario
+    
+    //Si el valor es mayor a uno y empieza con 0 se remueve el 0
+    if (campo.value.startsWith("0") && (campo.value.length > 1)) {
+        const removerCero = campo.value.slice(1);
+        campo.value = removerCero;
+    }
+}
