@@ -130,20 +130,49 @@ function cargarMiniaturasSesiones(){
     contenedorMiniaturasSesiones.innerHTML = allMiniaturasSesiones;
 }
 
-//Validaciones del formulario de Nueva Sesión
+//VALIDACIONES DEL FORMULARIO
+
+//Evitar que el nombre de la sesión sea muy largo
+const campoNombreSesion = document.getElementById("nombreSesion");
+campoNombreSesion.addEventListener('input', ()=>{
+    eliminarExcesoCaracteres(campoNombreSesion);
+});
+campoNombreSesion.addEventListener('blur', ()=>{
+    if (campoNombreSesion.value.length == 0){
+        campoNombreSesion.classList.add('campoRojo');
+    }else{
+        campoNombreSesion.classList.remove('campoRojo');
+    }
+});
+
+//Validación al tiempo del pomodoro
 const tiempoPomodoro = document.getElementById("pomodoro");
 tiempoPomodoro.addEventListener('input', ()=>{
     formatoNumero(tiempoPomodoro);
 });
 
+tiempoPomodoro.addEventListener('blur', ()=>{
+    validarNumeroIngresado(tiempoPomodoro);
+});
+
+//Validación al tiempo del descanso corto
 const descansoCorto = document.getElementById("descansoCorto");
 descansoCorto.addEventListener('input', ()=>{
     formatoNumero(descansoCorto);
 });
 
+descansoCorto.addEventListener('blur', ()=>{
+    validarNumeroIngresado(descansoCorto);
+});
+
+//Validación al tiempo del descanso largo
 const descansoLargo = document.getElementById("descansoLargo");
 descansoLargo.addEventListener('input', ()=>{
     formatoNumero(descansoLargo);
+});
+
+descansoLargo.addEventListener('blur', ()=>{
+    validarNumeroIngresado(descansoLargo);
 });
 //Obtenemos del DOM los valores para manipular la ventana modal de "Nueva sesión"
 const botonNuevaSesion = document.getElementById('btnNuevaSesion');
@@ -229,8 +258,9 @@ overlay.addEventListener('click', ()=>{
 
 //Evitar que los campos numéricos puedan contener letras o se queden vacíos
 function formatoNumero(campo){
+    //poner un 1 si el campo se queda vacío o un 999 si se excede de 999
     if (campo.value.length === 0) {
-      campo.value = '0';
+      campo.value = '1';
     } else if (campo.value > 999){
         campo.value ='999';
     }
@@ -244,5 +274,22 @@ function formatoNumero(campo){
     if (campo.value.startsWith("0") && (campo.value.length > 1)) {
         const removerCero = campo.value.slice(1);
         campo.value = removerCero;
+    }
+}
+
+//Función para borrar todos los caracteres más allá de los 30 permitidos
+function eliminarExcesoCaracteres(campoNombreSesion){
+    if(campoNombreSesion.value.length > 30){
+        const nuevaCadena = cadena.slice(1,30);
+        campoNombreSesion.value = nuevaCadena;
+    }
+};
+
+//Validar que no se haya ingresado un 0
+function validarNumeroIngresado(campo){
+    if(campo.value == 0){
+        campo.classList.add('campoRojo');
+    }else {
+        campo.classList.remove('campoRojo');
     }
 }

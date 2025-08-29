@@ -6,6 +6,7 @@
     --soft-gray-font:#707070;
     --white: #ffffff;
     --green-button: #399724;
+    --campoVacio: #eb432c;
 }
 
 * {
@@ -353,7 +354,6 @@ body{
   font-size: 16px;
   border: 1px solid var(--soft-gray, #ccc);
   border-radius: 4px;
-  outline: none;
   background: none;
   outline: 1px solid var(--dark-gray);
   
@@ -382,6 +382,16 @@ body{
   border-color: var(--primary, #6200ee);
 }
 
+/* Estado error (siempre rojo, tenga o no foco) */
+.campoMaterial input.campoRojo {
+  outline: 1px solid var(--campoVacio);
+}
+
+/* Estado error + focus (rojo también, sobreescribe al morado) */
+.campoMaterial input.campoRojo:focus {
+  border-color: var(--campoVacio);
+}
+
 .contenedorDuracionPomodoro .sufijo {
   position:absolute;
   left: 12px;
@@ -395,6 +405,10 @@ body{
 /*Estilo de los inputs dentro de contenedorDuracionPomodoro*/
 .contenedorDuracionPomodoro input{
   padding: 16px 12px 10px;
+}
+
+.campoRojo{
+  outline: none;
 }
 
 /*BOTÓN FLOTANTE PARA CREAR NUEVA SESIÓN*/
