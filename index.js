@@ -120,7 +120,7 @@ function cargarMiniaturasSesiones(){
                     </div>
                     
                     <div class="contenedorBotonIniciar">
-                        <div class="abrirSesion">
+                        <div class="abrirSesion" data-idSesion="${elemento._id}">
                             <p>Iniciar</p>
                             <span class="material-symbols-outlined">
                                 play_arrow
@@ -132,10 +132,20 @@ function cargarMiniaturasSesiones(){
         `;
 
         allMiniaturasSesiones = allMiniaturasSesiones + nuevaMinuaturaSesion;
+
     });
 
     //Cargamos todas nuestras miniaturas a nuestro contenedor
     contenedorMiniaturasSesiones.innerHTML = allMiniaturasSesiones;
+
+    //A todos los botones de "Iniciar" les añadimos sus eventListeners
+    document.querySelectorAll('.abrirSesion').forEach((btn) =>{
+        btn.addEventListener('click', ()=>{
+            const idSesion = btn.dataset.idsesion;
+            console.log(`Hiciste click en el botón ${idSesion}`);
+            window.location.href = `./assets/html/pomodoro.html?id=${idSesion}`;
+        });
+    });
 }
 
 //VALIDACIONES DEL FORMULARIO
@@ -280,7 +290,6 @@ function iniciarTimeout(){
         //Regresamos todos los campos del formulario a su estado original
         form.reset();
         resetearSelecciónFondo();
-        console.log("Datos eliminos por un minuto de inactividad");
 
         //Eliminamos los bordes rojos en caso de que lo haya
         const campoNombreSesion = document.getElementById("nombreSesion");
