@@ -13,6 +13,9 @@ const arrayfondos= [
     {id:9 , location: "./assets/fondos/mountains-fog-trees.jpg"}
 ];
 
+//Creamos variable de temporizador
+let timer = null;
+
 const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
 const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
 
@@ -29,16 +32,21 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     const fondoSeleccionado = document.querySelector(".miniaturaFondo.seleccionada")?.dataset.imagenId;
     //Metemos nuestros datos a nuestro objeto Pomodoro
     const nuevoPomodoro = new Pomodoro(nombreSesion, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo, fondoSeleccionado);
-    ///Instanciamos al manager para poder enviar nuestros datos al local storage
-    const manager = new PomodoroManager();
-    manager.agregarPomodoro(nuevoPomodoro);
-    //Regresamos todos los campos del formulario a su estado original
-    formularioNuevoPomodoro.reset();
-    resetearSelecciónFondo();
-    //Mostramos en el div contenedorSesiones la información correcta 
-    mostrarOcultarSesiones();
-    /*Cerramos el panel del formulario*/
-    panelNuevoPomodoro.classList.remove('abierto');
+
+    //Comprobamos que los inputs de tiempo tengan un valor distinto a 0
+    if( tiempoPomodoro > 0  && tiempoDescansoCorto > 0 && tiempoDescansoLargo > 0 ){
+        ///Instanciamos al manager para poder enviar nuestros datos al local storage
+        const manager = new PomodoroManager();
+        manager.agregarPomodoro(nuevoPomodoro);
+        //Regresamos todos los campos del formulario a su estado original
+        formularioNuevoPomodoro.reset();
+        resetearSelecciónFondo();
+        //Mostramos en el div contenedorSesiones la información correcta 
+        mostrarOcultarSesiones();
+        /*Cerramos el panel del formulario*/
+        panelNuevoPomodoro.classList.remove('abierto');
+    }
+    
 });
 
 //Función para resetear la selección del fondo en el formulario
@@ -233,12 +241,20 @@ const overlay = document.getElementById('overlay');
 botonNuevaSesion.addEventListener('click', ()=>{
     panel.classList.add('abierto');
     overlay.style.display='block';
+
+    //Eliminamos el timer
+    if (timer) {
+    clearTimeout(timer);
+    timer = null;
+    }
 });
 
 //Cerramos el panel
 botonCerrarPanel.addEventListener('click', ()=>{
     panel.classList.remove('abierto');
     overlay.style.display='none';
+    iniciarTimeout();
+    
 });
 
 //Cerramos el panel al presionar ESC
@@ -246,6 +262,7 @@ window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
     panel.classList.remove('abierto');
     overlay.style.display='none';
+    iniciarTimeout();
   }
 });
 
@@ -253,15 +270,36 @@ window.addEventListener('keydown', (e) => {
 overlay.addEventListener('click', ()=>{
     panel.classList.remove('abierto');
     overlay.style.display='none';
+    iniciarTimeout();
 });
 
+//Timeout para restablecer el formulario en caso de cierre e inactividad
+function iniciarTimeout(){
+    timer = setTimeout(()=>{
+        const form = document.getElementById('formularioNuevoPomodoro');
+        //Regresamos todos los campos del formulario a su estado original
+        form.reset();
+        resetearSelecciónFondo();
+        console.log("Datos eliminos por un minuto de inactividad");
+
+        //Eliminamos los bordes rojos en caso de que lo haya
+        const campoNombreSesion = document.getElementById("nombreSesion");
+        const tiempoPomodoro = document.getElementById("pomodoro");
+        const descansoCorto = document.getElementById("descansoCorto");
+        const descansoLargo = document.getElementById("descansoLargo");
+
+        campoNombreSesion.classList.remove('campoRojo');
+        tiempoPomodoro.classList.remove('campoRojo');
+        descansoCorto.classList.remove('campoRojo');
+        descansoLargo.classList.remove('campoRojo');
+
+    }, 60_000);
+}
 
 //Evitar que los campos numéricos puedan contener letras o se queden vacíos
 function formatoNumero(campo){
     //poner un 1 si el campo se queda vacío o un 999 si se excede de 999
-    if (campo.value.length === 0) {
-      campo.value = '1';
-    } else if (campo.value > 999){
+    if (campo.value > 999){
         campo.value ='999';
     }
 
@@ -287,7 +325,7 @@ function eliminarExcesoCaracteres(campoNombreSesion){
 
 //Validar que no se haya ingresado un 0
 function validarNumeroIngresado(campo){
-    if(campo.value == 0){
+    if(campo.value == 0 || campo.value.length == 0){
         campo.classList.add('campoRojo');
     }else {
         campo.classList.remove('campoRojo');
