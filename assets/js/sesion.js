@@ -24,6 +24,7 @@ if(idSesionActual){
     console.log("Tiempo Descanso:", sesionActual._tiempoDescanso);
     console.log("Tiempo Descanso Largo:", sesionActual._tiempoDescansoLargo);
     console.log("Fondo:", sesionActual._fondo);
+    console.log("Fondo:", sesionActual._iteracion);
   } else {
     console.log("No se encontró la sesión con ese id");
   }
