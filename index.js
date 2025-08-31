@@ -1,17 +1,6 @@
 import Pomodoro from "./assets/js/pomodoro.js";
 import PomodoroManager from "./assets/js/pomodoro_manager.js";
-
-const arrayfondos= [
-    {id:1 , location: "./assets/fondos/17018-4k.jpg"},
-    {id:2 , location: "./assets/fondos/202797.jpg"},
-    {id:3 , location: "./assets/fondos/202827.jpg"},
-    {id:4 , location: "./assets/fondos/202833.jpg"},
-    {id:5 , location: "./assets/fondos/202901.jpg"},
-    {id:6 , location: "./assets/fondos/estructura-abstracta.jpg"},
-    {id:7 , location: "./assets/fondos/fondo-cubos.jpg"},
-    {id:8 , location: "./assets/fondos/mountains-fog-landscape.jpg"},
-    {id:9 , location: "./assets/fondos/mountains-fog-trees.jpg"}
-];
+import utils from "./assets/js/utils.js";
 
 //Creamos variable de temporizador
 let timer = null;
@@ -87,7 +76,7 @@ function cargarMiniaturasSesiones(){
     listaSesiones.forEach(elemento =>{
         const idSeleccionado = Number(elemento._fondo); // Convertimos a número para comparar
         // Buscamos el objeto cuyo id coincida con el seleccionado
-        const fondoEncontrado = arrayfondos.find(fondo => fondo.id === idSeleccionado);
+        const fondoEncontrado = utils.arrayFondos.find(fondo => fondo.id === idSeleccionado);
         // Obtenemos la dirección de la imagen, si encontramos el fondo
         const direccionImagen = fondoEncontrado ? fondoEncontrado.location : null;
 
@@ -205,7 +194,7 @@ const contenedorFondos = document.getElementById('contenedorFondos');
 
 let fondosCargados = '';
 //recorremos el arreglo de fondos y los agregamos dentro de un div
-arrayfondos.forEach(imagen => {
+utils.arrayFondos.forEach(imagen => {
     const nuevoFondoCargado = `
     
     <div class="miniaturaFondo" style="background-image: url('${imagen.location}')"  data-imagen-id='${imagen.id}'></div>
