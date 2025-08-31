@@ -36,9 +36,64 @@ if(idSesionActual){
     //Obtenemos el body y le asignamos el fondo correspondiente
     const cssBody = document.body;
     cssBody.style.backgroundImage = `url(../../${direccionImagen})`;
-    cssBody.style.backgroundSize = "cover";     // hace que la imagen se escale a todo el body
-  cssBody.style.backgroundRepeat = "no-repeat"; // evita que se repita
+    cssBody.style.backgroundSize = "cover";      // o "cover" según lo que quieras
+    cssBody.style.backgroundRepeat = "no-repeat";
+    cssBody.style.backgroundPosition = "center";
+
+    //Obtenemos el día actual del mes
+    const fechaActual = new Date();
+    const diaDelMes = fechaActual.getDate();
+    const fechaDiv = document.getElementById("fecha");
+
+    // Obtener el nombre largo del mes (ej: "Agosto")
+    const nombreMes = fechaActual.toLocaleString('es-ES', { month: 'long' });
+
+    // Obtener el nombre corto del mes (ej: "Ago")
+    const nombreMesCorto = fechaActual.toLocaleString('es-ES', { month: 'short' });
+    console.log(nombreMesCorto);
+
+    fechaDiv.innerHTML = `${diaDelMes} de ${nombreMes}` ;
+
+    //Actualizar hora
+    actualizarHora();
+
 
   } else {
     console.log("No se encontró la sesión con ese id");
   }
+
+
+  function actualizarHora(){
+     // Obtenemos la hora actual
+    const d = new Date();
+    let horas = d.getHours();
+    let minutos = d.getMinutes();
+
+    // Convertimos a formato 12 horas
+    horas = horas % 12;
+    horas = horas === 0 ? 12 : horas; // si es 0, mostrar 12
+
+    // Aseguramos que los minutos tengan 2 dígitos
+    horas = horas.toString().padStart(2, "0");
+    minutos = minutos.toString().padStart(2, "0");
+
+    // Construimos la cadena
+    const horaActual = `${horas}:${minutos}`;
+
+    // Mostramos en el div
+    const horaDiv = document.getElementById("hora");
+    horaDiv.innerHTML = horaActual;
+  }
+
+  // Calculamos cuántos milisegundos faltan para el próximo minuto
+  const ahora = new Date();
+  const msParaSiguienteMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
+
+  // Esperamos hasta el siguiente minuto
+  setTimeout(() => {
+    // Actualizamos justo al iniciar el minuto
+    actualizarHora();
+
+    // Luego ejecutamos cada minuto exacto
+    setInterval(actualizarHora, 60 * 1000);
+  }, msParaSiguienteMinuto);
