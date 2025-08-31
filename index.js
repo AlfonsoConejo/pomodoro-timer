@@ -120,7 +120,7 @@ function cargarMiniaturasSesiones(){
                     </div>
                     
                     <div class="contenedorBotonIniciar">
-                        <div class="abrirSesion" data-idSesion="${elemento._id}">
+                        <div class="abrirSesion" data-idsesion="${elemento._id}">
                             <p>Iniciar</p>
                             <span class="material-symbols-outlined">
                                 play_arrow
@@ -139,11 +139,16 @@ function cargarMiniaturasSesiones(){
     contenedorMiniaturasSesiones.innerHTML = allMiniaturasSesiones;
 
     //A todos los botones de "Iniciar" les añadimos sus eventListeners
-    document.querySelectorAll('.abrirSesion').forEach((btn) =>{
+    document.querySelectorAll('.abrirSesion').forEach((btn) =>{ 
         btn.addEventListener('click', ()=>{
             const idSesion = btn.dataset.idsesion;
+
+            //Guardamos el id de la sesión en localStorage
+            localStorage.setItem("sesionActual", idSesion);
+
+            //Redireccionamos a la siguiente página
             console.log(`Hiciste click en el botón ${idSesion}`);
-            window.location.href = `./assets/html/pomodoro.html?id=${idSesion}`;
+            window.location.href = `./assets/html/sesion.html?id=${idSesion}`;
         });
     });
 }
