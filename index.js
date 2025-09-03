@@ -5,8 +5,10 @@ import utils from "./assets/js/utils.js";
 //Creamos variable de temporizador
 let timer = null;
 
+//Variables globales
 const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
 const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
+const overlay = document.getElementById('overlay');
 
 //Envío del formulario al guardar
 formularioNuevoPomodoro.addEventListener('submit', (e)=>{
@@ -34,6 +36,8 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
         mostrarOcultarSesiones();
         /*Cerramos el panel del formulario*/
         panelNuevoPomodoro.classList.remove('abierto');
+        //Desactivamos el overlay
+        overlay.style.display='none';
     }
     
 });
@@ -240,7 +244,6 @@ miniaturasFondos.forEach(miniatura => {
     });
 });
 
-const overlay = document.getElementById('overlay');
 //Abrimos el panel al hacer click sobre el botón de "Nueva sesión"
 botonNuevaSesion.addEventListener('click', ()=>{
     panel.classList.add('abierto');
