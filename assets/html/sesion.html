@@ -4,17 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../icons/timer.svg">
+    <!--Google fonts Roboto-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <!--Hoja de estilos-->
     <link rel="stylesheet" type="text/css" href="../css/sesion.css">
     <!--Iniciamos nuestro código JS-->
     <script type="module" defer src="../js/sesion.js"></script>
     <title>Pomodoro | Sesión</title>
+    <!--Google Icons-->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <span id="fecha"></span>
-        <span id="hora"></span>
+        <div class="contenedorIzquierda">
+            <button id="botonRegresar" class="botonRegresar">
+                <span class="material-symbols-outlined icono">
+                    arrow_back_ios
+                </span>        
+            </button>  
+            <span id="titulo" class="titulo"></span>  
+        </div>
+
+        <div class="contenedorDerecha">
+            <span id="fecha" class="fecha"></span>
+            <span id="hora" class="hora"></span>
+        </div>
     </header>
-    
+
+    <div class="wrapper">
+        <div class="temporizador" id="temporizador">
+            <div class="selectorTemporizador">
+                <button class="phaseButton pomodoro" id ="btnPomodoro">Pomodoro</button>
+                <button class="phaseButton descansoCorto" id ="btnDescansoCorto">Descanso Corto</button>
+                <button class="phaseButton descansoLargo" id ="btnDescansoLargo">Descanso Largo</button>
+            </div>
+            <div class="relojContenedor">
+                <span id="reloj" class="reloj"></span>
+            </div>
+            <div class="iterador">0/4</div>
+            <button class="botoniniciar">INICIAR</button>
+        </div>
+    </div>
+
 </body>
 </html>

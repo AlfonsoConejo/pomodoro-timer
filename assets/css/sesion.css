@@ -1,14 +1,153 @@
+:root{
+    --orange: rgb(184, 182, 179); 
+    --blue: rgb(51, 117, 239);
+    --red-timer: #f35f5f;
+    --blue-timer: rgb(101, 140, 214);
+    --purple-timer: #8144d1;
+    --text-color: rgb(99, 98, 98);
+}
+
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
 
+/*Efecto de cristal*/
+.glass {
+  background: rgba(255, 255, 255, 0); /* Fondo blanco translúcido */
+  backdrop-filter: blur(10px);          /* Difumina lo que está detrás */
+  -webkit-backdrop-filter: blur(10px);  /* Soporte para Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+  border-radius: 12px;                  /* Bordes redondeados (opcional) */
+}
+
 html, body {
   height: 100%;
+  font-family: 'roboto', sans-serif;
 }
 
 header{
+    padding: 5px 10px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contenedorIzquierda{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botonRegresar {
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+    width: 40px;
+
+    display: flex;           /* activamos flexbox */
+    justify-content: center; /* centrado horizontal */
+    align-items: center;     /* centrado vertical */
+    padding: 0;              /* eliminamos padding por defecto */
+    cursor: pointer;
+
+    margin-right: 10px;
+}
+
+.icono {
+    margin-left: 4px;
+    color: var(--blue);
+    font-size: 18px !important;
+    line-height: 1;  /* evita desajustes verticales */
+}
+
+.titulo{
+    font-weight: 600;
+}
+
+.fecha{
+    font-size: 16px;
+}
+
+.hora{
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.wrapper{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temporizador{
+    width: 500px;
+    color: var(--text-color);
+    padding: 25px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+}
+
+.selectorTemporizador {
+    display: flex;
+    justify-content: space-around;
+}
+
+.phaseButton {
+    font-size: 18px;
+    color: var(--text-color);
+    border:none;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/*Definimos el color de cada botón al estar activo*/
+.phaseButton.pomodoro.activo{
+    background-color: var(--red-timer);
+    color: white;
+}
+
+.phaseButton.descansoCorto.activo{
+    background-color: var(--blue-timer);
+    color: white;
+}
+
+.phaseButton.descansoLargo.activo{
+    background-color: var(--purple-timer);
+    color: white;
+}
+
+
+.relojContenedor{
+    padding-top: 25px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reloj{
+    font-size: 135px;
+}
+
+.iterador{
+    text-align: center;
+    font-size: 24px;
+}
+
+.botoniniciar{
+    background-color: white;
+    border: none;
+    width: 200px;
+    border-radius: 5px;
+    font-size: 30px;
+    margin-top: 25px;
 }

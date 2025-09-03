@@ -12,4 +12,7 @@ export default class Pomodoro {
         this._fase = "pomodoro"; //"pomodoro", "descansoCorto", "descansoLargo" 
     }
 
+    cambiarFase(nuevaFase) {
+    this._fase = nuevaFase; // "pomodoro", "descansoCorto", "descansoLargo"
+  }
 }

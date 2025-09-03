@@ -136,7 +136,6 @@ function cargarMiniaturasSesiones(){
             localStorage.setItem("sesionActual", idSesion);
 
             //Redireccionamos a la siguiente página
-            console.log(`Hiciste click en el botón ${idSesion}`);
             window.location.href = `./assets/html/sesion.html?id=${idSesion}`;
         });
     });
@@ -228,6 +227,7 @@ const miniaturaPorDefecto = [...miniaturasFondos].find(
 if (miniaturaPorDefecto) {
   miniaturaPorDefecto.classList.add('seleccionada');
 }
+
 //Al hacer clic sobre un fondo deseleccionamos todos y marcamos el nuevo fondo seleccionado
 miniaturasFondos.forEach(miniatura => {
     miniatura.addEventListener('click', (e) => {
