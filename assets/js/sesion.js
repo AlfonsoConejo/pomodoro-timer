@@ -111,13 +111,17 @@ if (sesionActual) {
   btnIniciar.addEventListener('click', ()=>{
     const datosSesion = manager.getPomodoroActual();
     let minutosIniciales = 0;
+    let sonidoAlarma = '';
     
     if (datosSesion._fase === 'pomodoro'){
       minutosIniciales = datosSesion._tiempoPomodoro;
+      sonidoAlarma = 'Alarm_clock.mp3';
     } else if (datosSesion._fase === 'descansoCorto'){
       minutosIniciales = datosSesion._tiempoDescanso;
+      sonidoAlarma = 'Water_drop.mp3';
     } else {
       minutosIniciales = datosSesion._tiempoDescansoLargo;
+      sonidoAlarma = 'Wind_shrine.mp3';
     }
     
     let tiempo = minutosIniciales * 60;
@@ -136,8 +140,8 @@ if (sesionActual) {
       if (tiempo <= 0) {
         clearInterval(timerId);
         timerId = null;
-        console.log("⏰ Se acabó el tiempo");
-        // aquí puedes cambiar fase automáticamente
+        const sonido = new Audio(`../audios/${sonidoAlarma}`);
+        sonido.play();
       }
     }, 1000);
 
