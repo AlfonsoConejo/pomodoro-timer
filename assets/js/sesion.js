@@ -57,10 +57,16 @@ if (sesionActual) {
   const tiempoPomodoro = sesionActual._tiempoPomodoro;
   const tiempoDescansoCorto = sesionActual._tiempoDescanso;
   const tiempoDescansoLargo = sesionActual._tiempoDescansoLargo;
-  
-  seleccionarDeseleccionarBotones(faseActual);
-  cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
-  aplicarTema(faseActual);
+  const iteracion = sesionActual._iteracion;
+  if(iteracion === 0){
+    seleccionarDeseleccionarBotones('pomodoro');
+    cargarReloj('pomodoro', tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
+    aplicarTema('pomodoro');
+  }else{
+    seleccionarDeseleccionarBotones(faseActual);
+    cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
+    aplicarTema(faseActual);
+  }
 
   //Agregamos el event listener a los botones de fase
   const btnPomodoro = document.getElementById('btnPomodoro');
