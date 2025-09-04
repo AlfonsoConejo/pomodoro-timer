@@ -59,6 +59,7 @@ if (sesionActual) {
   const tiempoDescansoLargo = sesionActual._tiempoDescansoLargo;
   const iteracion = sesionActual._iteracion;
   if(iteracion === 0){
+    manager.actualizarFase(idSesionActual, "pomodoro");
     seleccionarDeseleccionarBotones('pomodoro');
     cargarReloj('pomodoro', tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
     aplicarTema('pomodoro');
@@ -105,7 +106,7 @@ if (sesionActual) {
 
   let timerId = null;
 
-  //Lógica para que funciones el temporizador
+  //Lógica para que funcione el temporizador
   const btnIniciar = document.getElementById("botonIniciar");
   btnIniciar.addEventListener('click', ()=>{
     const datosSesion = manager.getPomodoroActual();
