@@ -11,6 +11,9 @@ export default class PomodoroManager {
             p._tiempoDescansoLargo,
             p._fondo
         ), p));
+
+        // Cargarmos id de la sesión activa si existe
+        this._idSesionActual = localStorage.getItem("sesionActual") || null;
     }
 
     get lista (){
@@ -34,8 +37,14 @@ export default class PomodoroManager {
         if (pomodoro) {
             pomodoro._fase = nuevaFase;
             this.lista = this._lista; // persiste
-            return pomodoro;
         }
         return null;
+    }
+
+    getPomodoroActual() {
+        if (!this._idSesionActual) return null;
+        return this._lista.find(
+        (p) => p._id === Number(this._idSesionActual)
+        ) || null;
     }
 }

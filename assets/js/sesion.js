@@ -68,7 +68,7 @@ if (sesionActual) {
   const btnDescansoLargo = document.getElementById('btnDescansoLargo');
 
   btnPomodoro.addEventListener("click", () => { 
-    const datosSesion = manager.actualizarFase(idSesionActual, "pomodoro");
+    const datosSesion = manager.getPomodoroActual();
     manager.actualizarFase(idSesionActual, "pomodoro");
 
     seleccionarDeseleccionarBotones(datosSesion._fase);
@@ -78,7 +78,7 @@ if (sesionActual) {
   });
 
   btnDescansoCorto.addEventListener("click", () => {
-    const datosSesion = manager.actualizarFase(idSesionActual, "descansoCorto");
+    const datosSesion = manager.getPomodoroActual();
     manager.actualizarFase(idSesionActual, "descansoCorto");
 
     seleccionarDeseleccionarBotones(datosSesion._fase);
@@ -88,7 +88,7 @@ if (sesionActual) {
   });
 
   btnDescansoLargo.addEventListener("click", () => {
-    const datosSesion = manager.actualizarFase(idSesionActual, "descansoLargo");
+    const datosSesion = manager.getPomodoroActual();
     manager.actualizarFase(idSesionActual, "descansoLargo");
 
     seleccionarDeseleccionarBotones(datosSesion._fase);
@@ -97,9 +97,53 @@ if (sesionActual) {
 
   });
 
+  let timerId = null;
+
+  //Lógica para que funciones el temporizador
+  const btnIniciar = document.getElementById("botonIniciar");
+  btnIniciar.addEventListener('click', ()=>{
+    const datosSesion = manager.getPomodoroActual();
+    let minutosIniciales = 0;
+    
+    if (datosSesion._fase === 'pomodoro'){
+      minutosIniciales = datosSesion._tiempoPomodoro;
+    } else if (datosSesion._fase === 'descansoCorto'){
+      minutosIniciales = datosSesion._tiempoDescanso;
+    } else {
+      minutosIniciales = datosSesion._tiempoDescansoLargo;
+    }
+    
+    let tiempo = minutosIniciales * 60;
+
+    //Mostrar inmediatamente
+    actualizarTemporizador(tiempo);
+
+    // Limpiar intervalos anteriores (por si vuelves a iniciarlo)
+    if (timerId) clearInterval(timerId);
+
+    // Arranca intervalo
+    timerId = setInterval(() => {
+      tiempo--;
+      actualizarTemporizador(tiempo);
+
+      if (tiempo <= 0) {
+        clearInterval(timerId);
+        timerId = null;
+        console.log("⏰ Se acabó el tiempo");
+        // aquí puedes cambiar fase automáticamente
+      }
+    }, 1000);
+
+  });
+
 } else {
   console.log("No se encontró la sesión con el id solicitado");
 }
+
+
+
+
+
 
 function actualizarHora(){
   // Obtenemos la hora actual
@@ -177,7 +221,6 @@ function aplicarTema(fase){
   } else {
     reloj.style.color = 'var(--purple-timer)';
   }
-
   
 };
 
@@ -204,6 +247,13 @@ function cargarReloj(fase, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLa
 
 }
 
-function actualizarReloj(){
-  
+function actualizarTemporizador(tiempo){
+  console.log('pasó un segundo');
+  const temporizadorSpan = document.getElementById('reloj');
+
+  const minutos =  Math.floor(tiempo / 60);
+  let segundos = tiempo % 60;
+
+  temporizadorSpan.innerHTML = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+  tiempo --;
 }

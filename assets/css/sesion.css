@@ -150,4 +150,5 @@ header{
     border-radius: 5px;
     font-size: 30px;
     margin-top: 25px;
+    cursor: pointer;
 }
