@@ -74,33 +74,48 @@ if (sesionActual) {
   const btnDescansoCorto = document.getElementById('btnDescansoCorto');
   const btnDescansoLargo = document.getElementById('btnDescansoLargo');
 
-  btnPomodoro.addEventListener("click", () => { 
-    const datosSesion = manager.getPomodoroActual();
-    manager.actualizarFase(idSesionActual, "pomodoro");
+  btnPomodoro.addEventListener("click", () => {
+    
+    //Si el botón no está seleccionado
+    if (!btnPomodoro.classList.contains("activo")){
+      const datosSesion = manager.getPomodoroActual();
+      manager.actualizarFase(idSesionActual, "pomodoro");
 
-    seleccionarDeseleccionarBotones(datosSesion._fase);
-    cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
-    aplicarTema(datosSesion._fase);
+      clearInterval(timerId);
+      seleccionarDeseleccionarBotones(datosSesion._fase);
+      cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+      aplicarTema(datosSesion._fase);
+      }
 
   });
 
   btnDescansoCorto.addEventListener("click", () => {
-    const datosSesion = manager.getPomodoroActual();
-    manager.actualizarFase(idSesionActual, "descansoCorto");
 
-    seleccionarDeseleccionarBotones(datosSesion._fase);
-    cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
-    aplicarTema(datosSesion._fase);
+    //Si el botón no está seleccionado
+    if (!btnDescansoCorto.classList.contains("activo")){
+      const datosSesion = manager.getPomodoroActual();
+      manager.actualizarFase(idSesionActual, "descansoCorto");
+
+      clearInterval(timerId);
+      seleccionarDeseleccionarBotones(datosSesion._fase);
+      cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+      aplicarTema(datosSesion._fase);
+    }
 
   });
 
   btnDescansoLargo.addEventListener("click", () => {
-    const datosSesion = manager.getPomodoroActual();
-    manager.actualizarFase(idSesionActual, "descansoLargo");
 
-    seleccionarDeseleccionarBotones(datosSesion._fase);
-    cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
-    aplicarTema(datosSesion._fase);
+    //Si el botón no está seleccionado
+    if (!btnDescansoLargo.classList.contains("activo")){
+      const datosSesion = manager.getPomodoroActual();
+      manager.actualizarFase(idSesionActual, "descansoLargo");
+
+      clearInterval(timerId);
+      seleccionarDeseleccionarBotones(datosSesion._fase);
+      cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+      aplicarTema(datosSesion._fase);
+    }
 
   });
 
