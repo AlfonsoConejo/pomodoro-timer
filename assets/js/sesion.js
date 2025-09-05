@@ -237,15 +237,22 @@ function seleccionarDeseleccionarBotones(fase){
 function aplicarTema(fase){
   //Obtenemos los elementos que cambian de color
   const reloj = document.getElementById('reloj');
+  const botonIniciar = document.getElementById('botonIniciar');
+  const botonReiniciar = document.getElementById('botonReiniciar');
 
   if(fase === 'pomodoro'){
     reloj.style.color = 'var(--red-timer)';
+    botonIniciar.style.backgroundColor = 'var(--red-timer)';
+    botonReiniciar.style.border = '2px solid var(--red-timer)';
 
   }else if(fase === 'descansoCorto'){
     reloj.style.color = 'var(--blue-timer)';
-
+    botonIniciar.style.backgroundColor = 'var(--blue-timer)';
+    botonReiniciar.style.border = '2px solid var(--blue-timer)';
   } else {
     reloj.style.color = 'var(--purple-timer)';
+    botonIniciar.style.backgroundColor = 'var(--purple-timer)';
+    botonReiniciar.style.border = '2px solid var(--purple-timer)';
   }
   
 };
