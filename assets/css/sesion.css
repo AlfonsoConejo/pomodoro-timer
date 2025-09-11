@@ -1,3 +1,12 @@
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 :root{
     --orange: rgb(184, 182, 179); 
     --blue: rgb(51, 117, 239);
@@ -161,9 +170,15 @@ header{
 }
 
 .botonReiniciar{
+    color: var(--text-color);
     width: 50px;       /* ancho */
     height: 50px;      /* alto (igual que el ancho) */
     border-radius: 50%;
     border: none;
     background-color: white;
+    cursor: pointer;
+}
+
+.girar{
+    animation: rotate 0.5s 1 linear;
 }

@@ -3,9 +3,46 @@ import utils from "./utils.js";
 
 //Obtenemos el id de la sesión actual abierta
 const idSesionActual = localStorage.getItem("sesionActual");
-if(idSesionActual){
-    console.log(`ESta es la sesión actual ${idSesionActual}`)
+
+// 🔊 Setup del contexto de audio y almacenamiento de sonidos
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+const sonidos = {
+  alarm: { path: '../audios/Alarm_clock.wav' },
+  water: { path: '../audios/Water_drop.wav' },
+  wind:  { path: '../audios/Wind_shrine.wav' }
+};
+
+async function loadAudio(key) {
+  const res = await fetch(sonidos[key].path);
+  const arrayBuffer = await res.arrayBuffer();
+  sonidos[key].buffer = await audioCtx.decodeAudioData(arrayBuffer);
 }
+
+// Precargamos todos
+Promise.all(Object.keys(sonidos).map(loadAudio))
+  .catch(err => console.error("Error cargando audio:", err));
+
+function playSound(key) {
+  const entry = sonidos[key];
+  if (!entry || !entry.buffer) {
+    console.warn("Sonido no cargado:", key);
+    return;
+  }
+  const src = audioCtx.createBufferSource();
+  src.buffer = entry.buffer;
+  src.connect(audioCtx.destination);
+  src.start();
+}
+
+//VARIABLES GLOBALES
+
+//Lógica para que funcione el temporizador
+const botonEstado = document.getElementById("botonEstado");
+let estado = botonEstado.dataset.estado;
+let timerId = null; // Guardar el interval
+let tiempo = 0;     // Tiempo restante en segundos
+let tiempoRestanteTemporizador = 0; //Variable auxiliar que guarda el valor restante en caso de pausar el temporizador
+
 
 // Instanciamos el objeto manager y accedemos a la lista de sesiones
 const manager = new PomodoroManager();
@@ -82,6 +119,9 @@ if (sesionActual) {
       manager.actualizarFase(idSesionActual, "pomodoro");
 
       clearInterval(timerId);
+      tiempoRestanteTemporizador = 0;
+      botonEstado.dataset.estado = 'iniciar';
+      estado = 'iniciar';
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -97,6 +137,9 @@ if (sesionActual) {
       manager.actualizarFase(idSesionActual, "descansoCorto");
 
       clearInterval(timerId);
+      tiempoRestanteTemporizador = 0;
+      botonEstado.dataset.estado = 'iniciar';
+      estado = 'iniciar';
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -112,6 +155,9 @@ if (sesionActual) {
       manager.actualizarFase(idSesionActual, "descansoLargo");
 
       clearInterval(timerId);
+      tiempoRestanteTemporizador = 0;
+      botonEstado.dataset.estado = 'iniciar';
+      estado = 'iniciar';
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -119,48 +165,76 @@ if (sesionActual) {
 
   });
 
-  let timerId = null;
 
-  //Lógica para que funcione el temporizador
-  const btnIniciar = document.getElementById("botonIniciar");
-  btnIniciar.addEventListener('click', ()=>{
+  //Añadimos event listener al boton que controla los estados del temporizador
+  botonEstado.addEventListener('click', () => {
     const datosSesion = manager.getPomodoroActual();
-    let minutosIniciales = 0;
-    let sonidoAlarma = '';
-    
-    if (datosSesion._fase === 'pomodoro'){
-      minutosIniciales = datosSesion._tiempoPomodoro;
-      sonidoAlarma = 'Alarm_clock.mp3';
-    } else if (datosSesion._fase === 'descansoCorto'){
-      minutosIniciales = datosSesion._tiempoDescanso;
-      sonidoAlarma = 'Water_drop.mp3';
-    } else {
-      minutosIniciales = datosSesion._tiempoDescansoLargo;
-      sonidoAlarma = 'Wind_shrine.mp3';
-    }
-    
-    let tiempo = minutosIniciales * 60;
-
-    //Mostrar inmediatamente
-    actualizarTemporizador(tiempo);
-
-    // Limpiar intervalos anteriores (por si vuelves a iniciarlo)
-    if (timerId) clearInterval(timerId);
-
-    // Arranca intervalo
-    timerId = setInterval(() => {
-      tiempo--;
-      actualizarTemporizador(tiempo);
-
-      if (tiempo <= 0) {
-        clearInterval(timerId);
-        timerId = null;
-        const sonido = new Audio(`../audios/${sonidoAlarma}`);
-        sonido.play();
+  
+    if(tiempoRestanteTemporizador > 0){ //Si el tiempo restante es igual a cero
+      tiempo = tiempoRestanteTemporizador;
+    }else{
+      // Determinar fase y tiempo del contador
+      if (datosSesion._fase === 'pomodoro') {
+        tiempo = datosSesion._tiempoPomodoro * 60;
+      } else if (datosSesion._fase === 'descansoCorto') {
+        tiempo = datosSesion._tiempoDescanso * 60;
+      } else {
+        tiempo = datosSesion._tiempoDescansoLargo * 60;
       }
-    }, 1000);
+    }
 
+    //Cambiamos el estado y el funcionamiento del botón 'Iniciar'
+    switch (estado) {
+      case 'iniciar':
+      estado = 'pausar';
+      botonEstado.dataset.estado = 'pausar';
+      botonEstado.innerText = 'PAUSAR';
+      iniciartemporizador(tiempo, datosSesion._fase);
+      break;
+
+      case 'pausar':
+        console.log(`Este es el tiempo restante ${tiempo}`);
+        estado = 'reanudar';
+        botonEstado.dataset.estado = 'reanudar';
+        botonEstado.innerText = 'REANUDAR';
+        if (timerId) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        break;
+
+      case 'reanudar':
+        estado = 'pausar';
+        botonEstado.dataset.estado = 'pausar';
+        botonEstado.innerText = 'PAUSAR';
+
+        iniciartemporizador(tiempo, datosSesion._fase);
+      break;
+    }
   });
+
+  //Añadimos event listener al evento que controla el reinicio del temporizador
+  const botonReiniciar = document.getElementById('botonReiniciar');
+
+  botonReiniciar.addEventListener('click', ()=>{
+
+    const datosSesion = manager.getPomodoroActual();
+    clearInterval(timerId);
+    tiempoRestanteTemporizador = 0;
+    botonEstado.dataset.estado = 'iniciar';
+    estado = 'iniciar';
+    seleccionarDeseleccionarBotones(datosSesion._fase);
+    cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+    aplicarTema(datosSesion._fase);
+
+    //Agregamos nuestra animación de girar
+    botonReiniciar.classList.add('girar');
+    //Al terminar la animación, eliminamos la clase
+    setTimeout(()=>{
+      botonReiniciar.classList.remove('girar');
+    },500); //El tiempo del setTimeout sebe coincidar con la duración de la animación
+  });
+  
 
 } else {
   console.log("No se encontró la sesión con el id solicitado");
@@ -193,26 +267,30 @@ function actualizarHora(){
   horaDiv.innerHTML = horaActual;
 }
 
-// Calculamos cuántos milisegundos faltan para el próximo minuto
-const ahora = new Date();
-const msParaSiguienteMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
+  // Calculamos cuántos milisegundos faltan para el próximo minuto
+  const ahora = new Date();
+  const msParaSiguienteMinuto = (60 - ahora.getSeconds()) * 1000 - ahora.getMilliseconds();
 
-// Esperamos hasta el siguiente minuto
-setTimeout(() => {
-  // Actualizamos justo al iniciar el minuto
-  actualizarHora();
+  // Esperamos hasta el siguiente minuto
+  setTimeout(() => {
+    // Actualizamos justo al iniciar el minuto
+    actualizarHora();
 
-  // Luego ejecutamos cada minuto exacto
-  setInterval(actualizarHora, 60 * 1000);
-}, msParaSiguienteMinuto);
+    // Luego ejecutamos cada minuto exacto
+    setInterval(actualizarHora, 60 * 1000);
+  }, msParaSiguienteMinuto);
 
-//El botón de regresar lleva a la pantalla de inicio
-const botonRegresar = document.getElementById("botonRegresar");
-botonRegresar.addEventListener('click', ()=>{
-  console.log('Quieres regresar');
-  //Redireccionamos a la página principal
-  window.location.href = './../../index.html';
-});
+
+
+  //El botón de regresar lleva a la pantalla de inicio
+  const botonRegresar = document.getElementById("botonRegresar");
+  botonRegresar.addEventListener('click', ()=>{
+    console.log('Quieres regresar');
+    //Redireccionamos a la página principal
+    window.location.href = './../../index.html';
+  });
+
+
 
 function seleccionarDeseleccionarBotones(fase){
   if(fase === 'pomodoro'){
@@ -233,29 +311,32 @@ function seleccionarDeseleccionarBotones(fase){
   }
 }
 
+
+
 //Aplica los colores correctos a los elementos dependiendo de la fase actual
 function aplicarTema(fase){
   //Obtenemos los elementos que cambian de color
   const reloj = document.getElementById('reloj');
-  const botonIniciar = document.getElementById('botonIniciar');
+  const botonEstado = document.getElementById('botonEstado');
   const botonReiniciar = document.getElementById('botonReiniciar');
 
   if(fase === 'pomodoro'){
     reloj.style.color = 'var(--red-timer)';
-    botonIniciar.style.backgroundColor = 'var(--red-timer)';
+    botonEstado.style.backgroundColor = 'var(--red-timer)';
     botonReiniciar.style.border = '2px solid var(--red-timer)';
 
   }else if(fase === 'descansoCorto'){
     reloj.style.color = 'var(--blue-timer)';
-    botonIniciar.style.backgroundColor = 'var(--blue-timer)';
+    botonEstado.style.backgroundColor = 'var(--blue-timer)';
     botonReiniciar.style.border = '2px solid var(--blue-timer)';
   } else {
     reloj.style.color = 'var(--purple-timer)';
-    botonIniciar.style.backgroundColor = 'var(--purple-timer)';
+    botonEstado.style.backgroundColor = 'var(--purple-timer)';
     botonReiniciar.style.border = '2px solid var(--purple-timer)';
   }
-  
 };
+
+
 
 //Muestra el tiempo inicial del reloj dependiendo de la fase actual
 function cargarReloj(fase, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo){
@@ -280,8 +361,37 @@ function cargarReloj(fase, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLa
 
 }
 
-function actualizarTemporizador(tiempo){
-  console.log('pasó un segundo');
+function iniciartemporizador(tiempo, fase){
+  if (timerId) clearInterval(timerId);
+  
+  timerId = setInterval(() => {
+    tiempo--; // Restamos un segundo
+    tiempoRestanteTemporizador = tiempo;//Actualizamos la variable global de tiempo restante
+
+    if (tiempo <= 0) {
+      clearInterval(timerId);
+      timerId = null;
+      tiempo = 0;
+      actualizarTemporizadorUI(tiempo);
+
+      //Reproducir con Web Audio según la fase
+      if (fase === 'pomodoro') {
+        playSound('alarm');
+      } else if (datosSesion._fase === 'descansoCorto') {
+        playSound('water');
+      } else {
+        playSound('wind');
+      }
+    } else {
+      actualizarTemporizadorUI(tiempo);
+    }
+  } , 1000);
+}
+
+
+
+
+function actualizarTemporizadorUI(tiempo){
   const temporizadorSpan = document.getElementById('reloj');
 
   const minutos =  Math.floor(tiempo / 60);
