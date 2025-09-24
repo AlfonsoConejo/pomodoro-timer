@@ -11,8 +11,11 @@
     --orange: rgb(184, 182, 179); 
     --blue: rgb(51, 117, 239);
     --red-timer: #f35f5f;
+    --red-timer-dark: #d93939;
     --blue-timer: rgb(101, 140, 214);
+    --blue-timer-dark: rgb(61, 106, 189);
     --purple-timer: #8144d1;
+    --purple-timer-dark: #6927c1;
     --text-color: rgb(99, 98, 98);
 }
 
@@ -159,8 +162,7 @@ header{
     justify-content: space-around;
 }
 
-.botoniniciar{
-    background-color: white;
+.botonEstado{
     border: none;
     width: 200px;
     border-radius: 5px;
@@ -168,6 +170,16 @@ header{
     cursor: pointer;
     color: white;
 }
+
+.botonEstado.pomodoro{background-color: var(--red-timer)}
+.botonEstado.descansoCorto{background-color: var(--blue-timer)}
+.botonEstado.descansoLargo{background-color: var(--purple-timer)}
+
+
+.botonEstado.pausar.pomodoro{background-color: var(--red-timer-dark);}
+.botonEstado.pausar.descansoCorto{background-color: var(--blue-timer-dark);}
+.botonEstado.pausar.descansoLargo{background-color: var(--purple-timer-dark);}
+
 
 .botonReiniciar{
     color: var(--text-color);

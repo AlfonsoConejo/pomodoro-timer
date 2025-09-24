@@ -95,12 +95,19 @@ if (sesionActual) {
   const tiempoDescansoCorto = sesionActual._tiempoDescanso;
   const tiempoDescansoLargo = sesionActual._tiempoDescansoLargo;
   const iteracion = sesionActual._iteracion;
+
+  botonEstado.dataset.estado = 'iniciar';
+  estado = 'iniciar';
+  botonEstado.innerText = 'INICIAR';
+
   if(iteracion === 0){
     manager.actualizarFase(idSesionActual, "pomodoro");
+    actualizarBotonEstadoUI();
     seleccionarDeseleccionarBotones('pomodoro');
     cargarReloj('pomodoro', tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
     aplicarTema('pomodoro');
   }else{
+    actualizarBotonEstadoUI();
     seleccionarDeseleccionarBotones(faseActual);
     cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
     aplicarTema(faseActual);
@@ -122,6 +129,8 @@ if (sesionActual) {
       tiempoRestanteTemporizador = 0;
       botonEstado.dataset.estado = 'iniciar';
       estado = 'iniciar';
+      botonEstado.innerText = 'INICIAR';
+      actualizarBotonEstadoUI();
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -140,6 +149,8 @@ if (sesionActual) {
       tiempoRestanteTemporizador = 0;
       botonEstado.dataset.estado = 'iniciar';
       estado = 'iniciar';
+      botonEstado.innerText = 'INICIAR';
+      actualizarBotonEstadoUI();
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -158,6 +169,8 @@ if (sesionActual) {
       tiempoRestanteTemporizador = 0;
       botonEstado.dataset.estado = 'iniciar';
       estado = 'iniciar';
+      botonEstado.innerText = 'INICIAR';
+      actualizarBotonEstadoUI();
       seleccionarDeseleccionarBotones(datosSesion._fase);
       cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
       aplicarTema(datosSesion._fase);
@@ -189,6 +202,7 @@ if (sesionActual) {
       estado = 'pausar';
       botonEstado.dataset.estado = 'pausar';
       botonEstado.innerText = 'PAUSAR';
+      actualizarBotonEstadoUI();
       iniciartemporizador(tiempo, datosSesion._fase);
       break;
 
@@ -197,6 +211,7 @@ if (sesionActual) {
         estado = 'reanudar';
         botonEstado.dataset.estado = 'reanudar';
         botonEstado.innerText = 'REANUDAR';
+        actualizarBotonEstadoUI();
         if (timerId) {
           clearInterval(timerId);
           timerId = null;
@@ -206,8 +221,8 @@ if (sesionActual) {
       case 'reanudar':
         estado = 'pausar';
         botonEstado.dataset.estado = 'pausar';
-        botonEstado.innerText = 'PAUSAR';
-
+        botonEstado.innerText = 'PAUSAR'
+        actualizarBotonEstadoUI();
         iniciartemporizador(tiempo, datosSesion._fase);
       break;
     }
@@ -223,6 +238,7 @@ if (sesionActual) {
     tiempoRestanteTemporizador = 0;
     botonEstado.dataset.estado = 'iniciar';
     estado = 'iniciar';
+    botonEstado.innerText = 'INICIAR';
     seleccionarDeseleccionarBotones(datosSesion._fase);
     cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
     aplicarTema(datosSesion._fase);
@@ -322,16 +338,16 @@ function aplicarTema(fase){
 
   if(fase === 'pomodoro'){
     reloj.style.color = 'var(--red-timer)';
-    botonEstado.style.backgroundColor = 'var(--red-timer)';
+    //botonEstado.style.backgroundColor = 'var(--red-timer)';
     botonReiniciar.style.border = '2px solid var(--red-timer)';
 
   }else if(fase === 'descansoCorto'){
     reloj.style.color = 'var(--blue-timer)';
-    botonEstado.style.backgroundColor = 'var(--blue-timer)';
+    //botonEstado.style.backgroundColor = 'var(--blue-timer)';
     botonReiniciar.style.border = '2px solid var(--blue-timer)';
   } else {
     reloj.style.color = 'var(--purple-timer)';
-    botonEstado.style.backgroundColor = 'var(--purple-timer)';
+    //botonEstado.style.backgroundColor = 'var(--purple-timer)';
     botonReiniciar.style.border = '2px solid var(--purple-timer)';
   }
 };
@@ -388,8 +404,19 @@ function iniciartemporizador(tiempo, fase){
   } , 1000);
 }
 
+//Cambia la tonalidad del color en caso de que se presiona pausa y lo regresa a la normalidad si se selecciona otro estado
+function actualizarBotonEstadoUI(){
+  const datosSesion = manager.getPomodoroActual();
+  const fase = datosSesion._fase;
+  const botonEstado = document.getElementById("botonEstado");
+  const estadoActual = botonEstado.dataset.estado;
 
-
+  if(estadoActual === 'pausar'){
+    botonEstado.className = `botonEstado ${estadoActual} ${fase} `;
+  } else{
+    botonEstado.className = `botonEstado ${fase}`;
+  }
+}
 
 function actualizarTemporizadorUI(tiempo){
   const temporizadorSpan = document.getElementById('reloj');
