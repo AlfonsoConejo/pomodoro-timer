@@ -102,6 +102,7 @@ if (sesionActual) {
   
   clearInterval(timerId);
   tiempoRestanteTemporizador = 0;
+
   //Iniciamos el estado del boton en INICIAR
   botonEstado.dataset.estado = 'iniciar';
   estado = 'iniciar';
@@ -390,6 +391,8 @@ function cargarReloj(fase, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLa
   let texto = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
   relojSpan.textContent = texto;
 
+  //Mostramos el tiempo en el título de la pestaña
+  document.title = `(${texto}) Pomodoro | Sesión` ;
 }
 
 function iniciartemporizador(tiempo, fase){
@@ -496,10 +499,18 @@ function actualizarTemporizadorUI(tiempo){
 
   const minutos =  Math.floor(tiempo / 60);
   let segundos = tiempo % 60;
+  const tiempoNormalizado = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+  temporizadorSpan.innerHTML = tiempoNormalizado;
 
-  temporizadorSpan.innerHTML = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+  //Mostramos el tiempo restante en el título de la pestaña
+  document.title = `(${tiempoNormalizado}) Pomodoro | Sesión`;
+
   tiempo --;
 }
+
+function nuevoTituloPestaña(){
+
+};
 
 //Mostramos u ocultamos el mensaje para reiniciar las iteraciones
 function mostrarReinicioIteraciones(iteracion){
