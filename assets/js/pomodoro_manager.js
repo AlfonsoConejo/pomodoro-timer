@@ -41,6 +41,24 @@ export default class PomodoroManager {
         return null;
     }
 
+    incrementarIteracion(id){
+        const pomodoro = this._lista.find(p => p._id === Number(id));
+        if (pomodoro) {
+            pomodoro._iteracion = pomodoro._iteracion + 1;
+            this.lista = this._lista; // persiste
+        }
+        return null;
+    }
+
+    reiniciarIteracion(id){
+        const pomodoro = this._lista.find(p => p._id === Number(id));
+        if (pomodoro) {
+            pomodoro._iteracion = 0;
+            this.lista = this._lista; // persiste
+        }
+        return null;
+    }
+
     getPomodoroActual() {
         if (!this._idSesionActual) return null;
         return this._lista.find(

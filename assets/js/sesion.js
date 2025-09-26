@@ -96,22 +96,22 @@ if (sesionActual) {
   const tiempoDescansoLargo = sesionActual._tiempoDescansoLargo;
   const iteracion = sesionActual._iteracion;
 
+  //Obtenemos el span donde se muestra la iteración
+  const iteracionDiv = document.getElementById('iteracionActual');
+
+  
+  clearInterval(timerId);
+  tiempoRestanteTemporizador = 0;
+  //Iniciamos el estado del boton en INICIAR
   botonEstado.dataset.estado = 'iniciar';
   estado = 'iniciar';
   botonEstado.innerText = 'INICIAR';
-
-  if(iteracion === 0){
-    manager.actualizarFase(idSesionActual, "pomodoro");
-    actualizarBotonEstadoUI();
-    seleccionarDeseleccionarBotones('pomodoro');
-    cargarReloj('pomodoro', tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
-    aplicarTema('pomodoro');
-  }else{
-    actualizarBotonEstadoUI();
-    seleccionarDeseleccionarBotones(faseActual);
-    cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
-    aplicarTema(faseActual);
-  }
+  actualizarBotonEstadoUI();
+  seleccionarDeseleccionarBotones(faseActual);
+  cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
+  aplicarTema(faseActual);
+  iteracionDiv.innerHTML = iteracion;
+  mostrarReinicioIteraciones(iteracion);
 
   //Agregamos el event listener a los botones de fase
   const btnPomodoro = document.getElementById('btnPomodoro');
@@ -256,6 +256,21 @@ if (sesionActual) {
   console.log("No se encontró la sesión con el id solicitado");
 }
 
+//Event listener para el click momento de reiniciar las iteraciones del pomodoro
+const btnReiniciarIteraciones = document.getElementById("botonReiniciarIteraciones");
+btnReiniciarIteraciones.addEventListener('click', ()=>{
+  manager.reiniciarIteracion(idSesionActual);
+  //Guardamos el nuevo valor de la iteración en nuestro objeto
+  const datosSesion = manager.getPomodoroActual();
+  datosSesion._iteracion = 0;
+  //Reiniciamos el iterador en la UI
+  const iteracionDiv = document.getElementById('iteracionActual');
+  iteracionDiv.innerHTML = datosSesion._iteracion;
+  //Ocultamos el mensaje de reinicio de iteraciones
+  mostrarReinicioIteraciones(datosSesion._iteracion);
+});
+
+
 
 
 
@@ -393,11 +408,68 @@ function iniciartemporizador(tiempo, fase){
       //Reproducir con Web Audio según la fase
       if (fase === 'pomodoro') {
         playSound('alarm');
-      } else if (datosSesion._fase === 'descansoCorto') {
+
+        //Aumentamos en una unidad la iteración actual.
+        manager.incrementarIteracion(idSesionActual);
+        //Mostramos la nueva iteración
+        let datosSesion = manager.getPomodoroActual();
+        const iteracionDiv = document.getElementById('iteracionActual');
+        iteracionDiv.innerHTML = datosSesion._iteracion;
+
+        //Activamos la siguiente fase
+        datosSesion = manager.getPomodoroActual();
+
+        if(datosSesion._iteracion < 4){
+          manager.actualizarFase(idSesionActual, "descansoCorto");
+        } else{
+          manager.actualizarFase(idSesionActual, "descansoLargo");
+        }
+
+
+        clearInterval(timerId);
+        tiempoRestanteTemporizador = 0;
+        botonEstado.dataset.estado = 'iniciar';
+        estado = 'iniciar';
+        botonEstado.innerText = 'INICIAR';
+        actualizarBotonEstadoUI();
+        seleccionarDeseleccionarBotones(datosSesion._fase);
+        cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+        aplicarTema(datosSesion._fase);
+        mostrarReinicioIteraciones(datosSesion._iteracion);
+
+      } else if (fase === 'descansoCorto') {
         playSound('water');
+
+        //Activamos la siguiente fase
+        const datosSesion = manager.getPomodoroActual();
+        manager.actualizarFase(idSesionActual, "pomodoro");
+
+        clearInterval(timerId);
+        tiempoRestanteTemporizador = 0;
+        botonEstado.dataset.estado = 'iniciar';
+        estado = 'iniciar';
+        botonEstado.innerText = 'INICIAR';
+        actualizarBotonEstadoUI();
+        seleccionarDeseleccionarBotones(datosSesion._fase);
+        cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+        aplicarTema(datosSesion._fase);
       } else {
         playSound('wind');
-      }
+        //Activamos la siguiente fase
+        const datosSesion = manager.getPomodoroActual();
+        manager.actualizarFase(idSesionActual, "pomodoro");
+
+        clearInterval(timerId);
+        tiempoRestanteTemporizador = 0;
+        botonEstado.dataset.estado = 'iniciar';
+        estado = 'iniciar';
+        botonEstado.innerText = 'INICIAR';
+        actualizarBotonEstadoUI();
+        seleccionarDeseleccionarBotones(datosSesion._fase);
+        cargarReloj(datosSesion._fase, datosSesion._tiempoPomodoro, datosSesion._tiempoDescanso, datosSesion._tiempoDescansoLargo);
+        aplicarTema(datosSesion._fase);
+        }
+
     } else {
       actualizarTemporizadorUI(tiempo);
     }
@@ -418,6 +490,7 @@ function actualizarBotonEstadoUI(){
   }
 }
 
+//Actualizamos en la interfaz el número que contiene el temporizador
 function actualizarTemporizadorUI(tiempo){
   const temporizadorSpan = document.getElementById('reloj');
 
@@ -426,4 +499,16 @@ function actualizarTemporizadorUI(tiempo){
 
   temporizadorSpan.innerHTML = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
   tiempo --;
+}
+
+//Mostramos u ocultamos el mensaje para reiniciar las iteraciones
+function mostrarReinicioIteraciones(iteracion){
+  const divReiniciarIteraciones = document.getElementById("reiniciarIteraciones");
+  if(iteracion === 0){
+    console.log('Se oculta');
+    divReiniciarIteraciones.classList.remove('visible');
+  }else{
+    console.log('Se muestra');
+    divReiniciarIteraciones.classList.add('visible');
+  }
 }
