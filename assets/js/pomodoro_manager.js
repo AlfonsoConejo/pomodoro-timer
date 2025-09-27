@@ -59,6 +59,15 @@ export default class PomodoroManager {
         return null;
     }
 
+    marcarFinalizado(id, estado){
+        const pomodoro = this._lista.find(p => p._id === Number(id));
+        if (pomodoro) {
+            pomodoro._finalizado = estado;
+            this.lista = this._lista; // persiste
+        }
+        return null;
+    }
+
     getPomodoroActual() {
         if (!this._idSesionActual) return null;
         return this._lista.find(

@@ -95,22 +95,28 @@ if (sesionActual) {
   const tiempoDescansoCorto = sesionActual._tiempoDescanso;
   const tiempoDescansoLargo = sesionActual._tiempoDescansoLargo;
   const iteracion = sesionActual._iteracion;
+  const isFinalizado = sesionActual._finalizado;
 
   //Obtenemos el span donde se muestra la iteración
   const iteracionDiv = document.getElementById('iteracionActual');
 
-  
+  manager.actualizarFase(idSesionActual, "pomodoro");
   clearInterval(timerId);
   tiempoRestanteTemporizador = 0;
+
+
+  if(isFinalizado === 'true'){
+    mostrarMensajeFelicitaciones();
+  }
 
   //Iniciamos el estado del boton en INICIAR
   botonEstado.dataset.estado = 'iniciar';
   estado = 'iniciar';
   botonEstado.innerText = 'INICIAR';
   actualizarBotonEstadoUI();
-  seleccionarDeseleccionarBotones(faseActual);
-  cargarReloj(faseActual, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
-  aplicarTema(faseActual);
+  seleccionarDeseleccionarBotones("pomodoro");
+  cargarReloj("pomodoro", tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo);
+  aplicarTema("pomodoro");
   iteracionDiv.innerHTML = iteracion;
   mostrarReinicioIteraciones(iteracion);
 
@@ -262,13 +268,20 @@ const btnReiniciarIteraciones = document.getElementById("botonReiniciarIteracion
 btnReiniciarIteraciones.addEventListener('click', ()=>{
   manager.reiniciarIteracion(idSesionActual);
   //Guardamos el nuevo valor de la iteración en nuestro objeto
-  const datosSesion = manager.getPomodoroActual();
+  let datosSesion = manager.getPomodoroActual();
   datosSesion._iteracion = 0;
   //Reiniciamos el iterador en la UI
   const iteracionDiv = document.getElementById('iteracionActual');
   iteracionDiv.innerHTML = datosSesion._iteracion;
   //Ocultamos el mensaje de reinicio de iteraciones
   mostrarReinicioIteraciones(datosSesion._iteracion);
+  //Ocultamos el mensaje de felicitaciones
+  if(datosSesion._finalizado === 'true'){
+    manager.marcarFinalizado(idSesionActual,'false');
+    datosSesion = manager.getPomodoroActual();
+    
+    mostrarMensajeFelicitaciones();
+  }
 });
 
 
@@ -459,8 +472,17 @@ function iniciartemporizador(tiempo, fase){
       } else {
         playSound('wind');
         //Activamos la siguiente fase
-        const datosSesion = manager.getPomodoroActual();
+        let datosSesion = manager.getPomodoroActual();
         manager.actualizarFase(idSesionActual, "pomodoro");
+
+        //Si ya se complieron las 4 iteraciones y se agota el tiempo del descanso largo marcamos finalizado como true
+        if(datosSesion._iteracion === 4){
+          manager.marcarFinalizado(idSesionActual,'true');
+          //Actualizamos nuestra variable de datosSesion
+          datosSesion = manager.getPomodoroActual();
+        
+          mostrarMensajeFelicitaciones();
+        }
 
         clearInterval(timerId);
         tiempoRestanteTemporizador = 0;
@@ -508,10 +530,6 @@ function actualizarTemporizadorUI(tiempo){
   tiempo --;
 }
 
-function nuevoTituloPestaña(){
-
-};
-
 //Mostramos u ocultamos el mensaje para reiniciar las iteraciones
 function mostrarReinicioIteraciones(iteracion){
   const divReiniciarIteraciones = document.getElementById("reiniciarIteraciones");
@@ -521,5 +539,16 @@ function mostrarReinicioIteraciones(iteracion){
   }else{
     console.log('Se muestra');
     divReiniciarIteraciones.classList.add('visible');
+  }
+}
+
+//Mostramos el mensaje de felicitaciones
+function mostrarMensajeFelicitaciones(){
+  const divSesionFinalizada = document.getElementById('sesionFinalizada');
+  const datosSesion = manager.getPomodoroActual();
+  if(datosSesion._finalizado === 'true'){
+    divSesionFinalizada.classList.add('activo');
+  } else{
+    divSesionFinalizada.classList.remove('activo');
   }
 }

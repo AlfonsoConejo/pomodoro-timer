@@ -34,27 +34,34 @@
         </div>
     </header>
 
-    <div class="temporizador" id="temporizador">
-        <div class="selectorTemporizador">
-            <button class="phaseButton pomodoro" id ="btnPomodoro">Pomodoro</button>
-            <button class="phaseButton descansoCorto" id ="btnDescansoCorto">Descanso Corto</button>
-            <button class="phaseButton descansoLargo" id ="btnDescansoLargo">Descanso Largo</button>
+    <div class="temporizadorWrapper">
+        <div class="temporizador" id="temporizador">
+            <div class="selectorTemporizador">
+                <button class="phaseButton pomodoro" id ="btnPomodoro">Pomodoro</button>
+                <button class="phaseButton descansoCorto" id ="btnDescansoCorto">Descanso Corto</button>
+                <button class="phaseButton descansoLargo" id ="btnDescansoLargo">Descanso Largo</button>
+            </div>
+            <div class="relojContenedor">
+                <span id="reloj" class="reloj"></span>
+            </div>
+            <div class="iterador">Pomodoro: <span id="iteracionActual"></span>/4</div>
+            <div class="controladorBotones">
+                <button class="botonEstado" id="botonEstado" data-estado = "iniciar"></button>
+                <button class="botonReiniciar" id="botonReiniciar"><span class="material-symbols-outlined">
+                    refresh
+                    </span>
+                </button>
+            </div>
         </div>
-        <div class="relojContenedor">
-            <span id="reloj" class="reloj"></span>
-        </div>
-        <div class="iterador">Pomodoro: <span id="iteracionActual"></span>/4</div>
-        <div class="controladorBotones">
-            <button class="botonEstado" id="botonEstado" data-estado = "iniciar"></button>
-            <button class="botonReiniciar" id="botonReiniciar"><span class="material-symbols-outlined">
-                refresh
-                </span>
-            </button>
+        <div class="sesionFinalizada" id="sesionFinalizada">
+            <h1>¡Felicidades!</h1>
+            <p>Completaste 4/4 pomodoros</p>
+            <p>Para reiniciar la sesión reinicia el contador de pomodoros</p>
         </div>
     </div>
 
     <div class="reiniciarIteraciones" id="reiniciarIteraciones">
-        Reiniciar iteraciones
+        Reiniciar pomodoros
         <button class="botonReiniciarIteraciones" id="botonReiniciarIteraciones">
             <span class="material-symbols-outlined">
                 replay

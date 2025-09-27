@@ -10,6 +10,7 @@ export default class Pomodoro {
         //Estado de la sesión
         this._iteracion = 0; 
         this._fase = "pomodoro"; //"pomodoro", "descansoCorto", "descansoLargo" 
+        this._finalizado = "false";
     }
 
     cambiarFase(nuevaFase) {
