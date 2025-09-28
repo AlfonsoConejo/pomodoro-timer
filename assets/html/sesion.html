@@ -60,6 +60,27 @@
         </div>
     </div>
 
+    <script>
+        const btnDescansoCorto = document.getElementById("btnDescansoCorto");
+        const btnDescansoLargo = document.getElementById("btnDescansoLargo");
+
+        //Adaptar el texto de los botones al tamaño de la pantalla
+        function adaptarBotones(){
+            if (window.matchMedia("(max-width: 610px)").matches){
+                btnDescansoCorto.textContent = "Corto";
+                btnDescansoLargo.textContent = "Largo";
+            } else{
+                btnDescansoCorto.textContent = "Descanso Corto";
+                btnDescansoLargo.textContent = "Descanso Largo";
+            }
+        }
+
+        adaptarBotones();
+
+        //Escuchar cambios de tamaño del viewport
+        window.addEventListener("resize", adaptarBotones);
+    </script>
+
     <div class="reiniciarIteraciones" id="reiniciarIteraciones">
         Reiniciar pomodoros
         <button class="botonReiniciarIteraciones" id="botonReiniciarIteraciones">
