@@ -64,9 +64,6 @@ if (sesionActual) {
   //Obtenemos el body y le asignamos el fondo correspondiente
   const cssBody = document.body;
   cssBody.style.backgroundImage = `url(../../${direccionImagen})`;
-  cssBody.style.backgroundSize = "cover";      // o "cover" según lo que quieras
-  cssBody.style.backgroundRepeat = "no-repeat";
-  cssBody.style.backgroundPosition = "center";
 
   //Mostramos el nombre del pomodoro
   const tituloContainer = document.getElementById("titulo");

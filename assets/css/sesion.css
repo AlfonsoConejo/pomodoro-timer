@@ -36,8 +36,18 @@
 }
 
 html, body {
-  height: 100%;
-  font-family: 'roboto', sans-serif;
+  min-height: 100%;
+}
+
+body{
+    min-width: 100%;
+    font-family: 'roboto', sans-serif;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed; /* para que el fondo no se mueva */
+
+    overflow-y: auto; /* scroll si el contenido se pasa */
 }
 
 header{
@@ -91,15 +101,18 @@ header{
     font-size: 16px;
 }
 
+.container{
+    width: 100%;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
 .temporizadorWrapper{
     width: 500px;
     background-color: rgba(255, 255, 255, 0.9);
     color: var(--text-color);
     border-radius: 5px;
-    position: fixed;
-    top:12%;
-    left:50%;
-    transform: translateX(-50%);
 }
 
 .temporizador{
