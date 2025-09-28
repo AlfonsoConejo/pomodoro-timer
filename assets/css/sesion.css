@@ -268,14 +268,14 @@ header{
     font-size: 20px;
 }
 
-/*Para pantallas más pequeñas a 560 pixeles*/
+/*Para pantallas más pequeñas a 610 pixeles*/
 @media (max-width: 610px){
     .temporizadorWrapper{
         width: 400px;
     }
 
     .reloj{
-        font-size: 120px;
+        font-size: 110px;
     }
 
     .controladorBotones{
@@ -290,5 +290,43 @@ header{
     .botonReiniciar{
         width: 45px;
         height: 45px;
+    }
+}
+
+/*Para pantallas más pequeñas a 500 pixeles*/
+@media (max-width: 500px){
+.temporizador{
+    padding: 16px;
+}
+
+    .temporizadorWrapper{
+        width: 300px;
+    }
+
+    .relojContenedor{
+        padding-top: 0px;
+    }
+    .reloj{
+        font-size: 80px;
+    }
+
+    .controladorBotones{
+        padding: 0 15px;
+    }
+
+    .botonEstado{
+        width: 130px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .iterador{
+        font-size: 20px;
+    }
+
+    .botonReiniciar{
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
     }
 }
