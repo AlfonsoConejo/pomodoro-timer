@@ -325,9 +325,12 @@ function actualizarHora(){
   //El botón de regresar lleva a la pantalla de inicio
   const botonRegresar = document.getElementById("botonRegresar");
   botonRegresar.addEventListener('click', ()=>{
-    console.log('Quieres regresar');
+
     //Redireccionamos a la página principal
     window.location.href = './../../index.html';
+
+    //Borramos la sesión abierta del localStorage
+    localStorage.removeItem("sesionActual");
   });
 
 
