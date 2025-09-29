@@ -35,6 +35,7 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
         //Mostramos en el div contenedorSesiones la información correcta 
         mostrarOcultarSesiones();
         /*Cerramos el panel del formulario*/
+        panel.classList.add('animado');   // <- habilita transición
         panelNuevoPomodoro.classList.remove('abierto');
         //Desactivamos el overlay
         overlay.style.display='none';
@@ -140,7 +141,7 @@ function cargarMiniaturasSesiones(){
             localStorage.setItem("sesionActual", idSesion);
 
             //Redireccionamos a la siguiente página
-            window.location.href = `./assets/html/sesion.html?id=${idSesion}`;
+            window.location.href = `./assets/html/sesion.html`;
         });
     });
 }
@@ -246,8 +247,10 @@ miniaturasFondos.forEach(miniatura => {
 
 //Abrimos el panel al hacer click sobre el botón de "Nueva sesión"
 botonNuevaSesion.addEventListener('click', ()=>{
+    panel.classList.add('animado');   // <- habilita transición
     panel.classList.add('abierto');
     overlay.style.display='block';
+    
 
     //Eliminamos el timer
     if (timer) {
@@ -258,6 +261,7 @@ botonNuevaSesion.addEventListener('click', ()=>{
 
 //Cerramos el panel
 botonCerrarPanel.addEventListener('click', ()=>{
+    panel.classList.add('animado');   // <- habilita transición
     panel.classList.remove('abierto');
     overlay.style.display='none';
     iniciarTimeout();
@@ -267,6 +271,7 @@ botonCerrarPanel.addEventListener('click', ()=>{
 //Cerramos el panel al presionar ESC
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+    panel.classList.add('animado');   // <- habilita transición
     panel.classList.remove('abierto');
     overlay.style.display='none';
     iniciarTimeout();
@@ -275,9 +280,14 @@ window.addEventListener('keydown', (e) => {
 
 //Cerramos el panel si se hace clic en el overlay
 overlay.addEventListener('click', ()=>{
+    panel.classList.add('animado');   // <- habilita transición
     panel.classList.remove('abierto');
     overlay.style.display='none';
     iniciarTimeout();
+});
+
+panel.addEventListener('transitionend', () => {
+  panel.classList.remove('animado');
 });
 
 //Timeout para restablecer el formulario en caso de cierre e inactividad

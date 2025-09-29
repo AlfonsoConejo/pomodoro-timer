@@ -219,14 +219,18 @@ body{
     top:0;
     right: 0;
     height: 100dvh;
+    height: -webkit-fill-available;
     width: 500px;
     background-color: var(--soft-gray);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     transform: translateX(105%);  /* Oculto al inicio */
-    transition: transform .3s ease, opacity .3s ease;
     z-index: 100;
     display: flex;
     flex-direction: column;
+}
+
+.panelNuevoPomodoro.animado{
+  transition: transform .3s ease, opacity .3s ease;
 }
 
 .panelNuevoPomodoro.abierto {
