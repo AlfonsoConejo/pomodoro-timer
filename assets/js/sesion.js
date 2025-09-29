@@ -255,31 +255,29 @@ if (sesionActual) {
     },500); //El tiempo del setTimeout sebe coincidar con la duración de la animación
   });
   
-
+  //Event listener para el click momento de reiniciar las iteraciones del pomodoro
+  const btnReiniciarIteraciones = document.getElementById("botonReiniciarIteraciones");
+  btnReiniciarIteraciones.addEventListener('click', ()=>{
+    manager.reiniciarIteracion(idSesionActual);
+    //Guardamos el nuevo valor de la iteración en nuestro objeto
+    let datosSesion = manager.getPomodoroActual();
+    datosSesion._iteracion = 0;
+    //Reiniciamos el iterador en la UI
+    const iteracionDiv = document.getElementById('iteracionActual');
+    iteracionDiv.innerHTML = datosSesion._iteracion;
+    //Ocultamos el mensaje de reinicio de iteraciones
+    mostrarReinicioIteraciones(datosSesion._iteracion);
+    //Ocultamos el mensaje de felicitaciones
+    if(datosSesion._finalizado === 'true'){
+      manager.marcarFinalizado(idSesionActual,'false');
+      datosSesion = manager.getPomodoroActual();
+      
+      mostrarMensajeFelicitaciones();
+    }
+  });
 } else {
-  console.log("No se encontró la sesión con el id solicitado");
+  window.location.href= "../../index.html";
 }
-
-//Event listener para el click momento de reiniciar las iteraciones del pomodoro
-const btnReiniciarIteraciones = document.getElementById("botonReiniciarIteraciones");
-btnReiniciarIteraciones.addEventListener('click', ()=>{
-  manager.reiniciarIteracion(idSesionActual);
-  //Guardamos el nuevo valor de la iteración en nuestro objeto
-  let datosSesion = manager.getPomodoroActual();
-  datosSesion._iteracion = 0;
-  //Reiniciamos el iterador en la UI
-  const iteracionDiv = document.getElementById('iteracionActual');
-  iteracionDiv.innerHTML = datosSesion._iteracion;
-  //Ocultamos el mensaje de reinicio de iteraciones
-  mostrarReinicioIteraciones(datosSesion._iteracion);
-  //Ocultamos el mensaje de felicitaciones
-  if(datosSesion._finalizado === 'true'){
-    manager.marcarFinalizado(idSesionActual,'false');
-    datosSesion = manager.getPomodoroActual();
-    
-    mostrarMensajeFelicitaciones();
-  }
-});
 
 
 
