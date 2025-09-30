@@ -89,10 +89,17 @@ function cargarMiniaturasSesiones(){
             <div class="miniaturaSesion" style="background-image: url('${direccionImagen}')">
                 <div class="contenedorNombreSesion">
                     <h2>${elemento._nombre}</h2>
-                    <div class="iconoBorrar" data-idsesion="${elemento._id}">
-                        <span class="material-symbols-outlined">
-                            delete
-                        </span>
+                    <div class="botonesAccion">
+                        <div class="botonBorrar" data-idsesion="${elemento._id}">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </div>
+                        <div class="botonEditar" data-idsesion="${elemento._id}">
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+                        </div>
                     </div>
                 </div>
 
@@ -151,7 +158,7 @@ function cargarMiniaturasSesiones(){
     });
 
     //A todos los botones de borrar les agregamos el event listener
-    document.querySelectorAll('.iconoBorrar').forEach((btn) =>{
+    document.querySelectorAll('.botonBorrar').forEach((btn) =>{
         btn.addEventListener('click', ()=>{
             const idSesion  = btn.dataset.idsesion;
             manager.eliminarPomodoro(idSesion);
