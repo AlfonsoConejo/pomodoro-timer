@@ -32,6 +32,14 @@ export default class PomodoroManager {
         this.lista = this._lista;
     }
 
+    eliminarPomodoro(id){
+        const index = this._lista.findIndex(p=> p._id === Number(id));
+        if (index !== -1){
+            this._lista.splice(index,1);
+            this.lista = this._lista;
+        }
+    }
+
     actualizarFase(id, nuevaFase){
         const pomodoro = this._lista.find(p => p._id === Number(id));
         if (pomodoro) {

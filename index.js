@@ -89,6 +89,11 @@ function cargarMiniaturasSesiones(){
             <div class="miniaturaSesion" style="background-image: url('${direccionImagen}')">
                 <div class="contenedorNombreSesion">
                     <h2>${elemento._nombre}</h2>
+                    <div class="iconoBorrar" data-idsesion="${elemento._id}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </div>
                 </div>
 
                 <div class="contenedorDatosSesion">
@@ -142,6 +147,15 @@ function cargarMiniaturasSesiones(){
 
             //Redireccionamos a la siguiente página
             window.location.href = `./assets/html/sesion.html`;
+        });
+    });
+
+    //A todos los botones de borrar les agregamos el event listener
+    document.querySelectorAll('.iconoBorrar').forEach((btn) =>{
+        btn.addEventListener('click', ()=>{
+            const idSesion  = btn.dataset.idsesion;
+            manager.eliminarPomodoro(idSesion);
+            mostrarOcultarSesiones();
         });
     });
 }
