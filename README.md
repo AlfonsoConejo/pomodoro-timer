@@ -25,6 +25,7 @@ En él puedes crear todos los Pomodoros que necesites, personalizarlos y selecci
 - Envío y manipulación de información mediante datasets.
 - Event listeners para controlar eventos del usuario.
 - Funciones para manejar arreglos de objetos.
+- Implementación de diseño responsivo con CSS Media Queries.
 - Programación orientada a objetos para manejar la lógica de cada sesión.
 - Reutilización de código y modularización.
 - Buenas prácticas de manipulación del DOM.
