@@ -49,8 +49,8 @@
             <!--Overlay-->
             <div id="overlay" class="overlay"></div>
 
-            <!-- Panel lateral -->
-            <div class="panelNuevoPomodoro" id="panelNuevoPomodoro">
+            <!-- Panel lateral (Nuevo pomodoro)-->
+            <div class="panelDeslizable panelNuevoPomodoro" id="panelNuevoPomodoro">
                 <div class="contenidoFormulario">
                     <div class="tituloPanel">
                         <span class="material-symbols-outlined cerrarPanel" id="cerrarPanel">close</span>
@@ -89,13 +89,62 @@
 
                         <h3>Fondo</h3>
 
-                        <div class="contenedorFondos" id="contenedorFondos">
+                        <div class="contenedorFondos" id="contenedorFondosNuevo">
                         </div>
                         
                         <div class="contenedorBotonGuardar">
                             <button type="submit">Guardar</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Panel lateral (Editar pomodoro)-->
+            <div class="panelDeslizable panelEditarPomodoro" id="panelEditarPomodoro">
+                <div class="contenidoFormulario">
+                    <div class="tituloPanel">
+                        <span class="material-symbols-outlined cerrarPanel" id="cerrarPanelEditar">close</span>
+                        <h2>Editar Pomodoro</h2>
+                    </div>
                     
+                    <form id="formularioEditarPomodoro">
+                        <h3>General</h3>
+
+                        <div class="campoMaterial">
+                            <input type="text" id="nombreSesionEditar" name="nombreSesionEditar" placeholder="Ej: Estudiar biología" maxlength="30" autocomplete="off" required>
+                            <label for="nombre">Nombre de la sesión</label>
+                        </div>
+
+                         <h3>Duración</h3>
+                    
+                        <div class="contenedorDuracionPomodoro">
+                            <div class="campoMaterial inputTiempo">
+                                <input type="text" id="pomodoroEditar" name="pomodoroEditar" value="25" placeholder="" autocomplete="off" min="1" max="999" required>
+                                <label for="pomodoro">Pomodoro</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">        
+                                <input type="text" id="descansoCortoEditar" name="descansoCortoEditar" value="5" placeholder="" autocomplete="off" min="1" max="999" required>
+                                <label for="descansoCorto">Descanso corto</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+
+                            <div class="campoMaterial inputTiempo">
+                                <input type="text" id="descansoLargoEditar" name="descansoLargoEditar" value="10" placeholder="" autocomplete="off" min="1" max="999" required>
+                                <label for="descansoLargo">Descanso largo</label>
+                                <span class="sufijo">Minutos</span>
+                            </div>
+                        </div>
+
+                        <h3>Fondo</h3>
+
+                        <div class="contenedorFondos" id="contenedorFondosEditar">
+                        </div>
+                        
+                        <div class="contenedorBotonGuardar">
+                            <button type="submit">Guardar</button>
+                        </div>
                     </form>
                 </div>
             </div>

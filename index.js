@@ -6,8 +6,10 @@ import utils from "./assets/js/utils.js";
 let timer = null;
 
 //Variables globales
+const manager = new PomodoroManager();
 const formularioNuevoPomodoro = document.getElementById('formularioNuevoPomodoro');
 const panelNuevoPomodoro = document.getElementById('panelNuevoPomodoro');
+const panelEditarPomodoro = document.getElementById('panelEditarPomodoro');
 const overlay = document.getElementById('overlay');
 
 //Envío del formulario al guardar
@@ -20,22 +22,22 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     const tiempoPomodoro = parseInt(formularioNuevoPomodoro.pomodoro.value);
     const tiempoDescansoCorto = parseInt(formularioNuevoPomodoro.descansoCorto.value);
     const tiempoDescansoLargo = parseInt(formularioNuevoPomodoro.descansoLargo.value);
-    const fondoSeleccionado = document.querySelector(".miniaturaFondo.seleccionada")?.dataset.imagenId;
+    const fondoSeleccionado = panelNuevoPomodoro.querySelector(".miniaturaFondo.seleccionada")?.dataset.imagenId;
+
     //Metemos nuestros datos a nuestro objeto Pomodoro
     const nuevoPomodoro = new Pomodoro(nombreSesion, tiempoPomodoro, tiempoDescansoCorto, tiempoDescansoLargo, fondoSeleccionado);
 
     //Comprobamos que los inputs de tiempo tengan un valor distinto a 0
     if( tiempoPomodoro > 0  && tiempoDescansoCorto > 0 && tiempoDescansoLargo > 0 ){
         ///Instanciamos al manager para poder enviar nuestros datos al local storage
-        const manager = new PomodoroManager();
         manager.agregarPomodoro(nuevoPomodoro);
         //Regresamos todos los campos del formulario a su estado original
         formularioNuevoPomodoro.reset();
-        resetearSelecciónFondo();
+        resetearSelecciónFondoNuevoPomodoro();
         //Mostramos en el div contenedorSesiones la información correcta 
         mostrarOcultarSesiones();
         /*Cerramos el panel del formulario*/
-        panel.classList.add('animado');   // <- habilita transición
+        panelNuevoPomodoro.classList.add('animado');   // <- habilita transición
         panelNuevoPomodoro.classList.remove('abierto');
         //Desactivamos el overlay
         overlay.style.display='none';
@@ -43,12 +45,12 @@ formularioNuevoPomodoro.addEventListener('submit', (e)=>{
     
 });
 
-//Función para resetear la selección del fondo en el formulario
-function resetearSelecciónFondo(){
+//Función para resetear la selección del fondo en el formulario 'Nuevo pomodoro'
+function resetearSelecciónFondoNuevoPomodoro(){
     //Obtenemos todos los elementos que se llamen miniaturaFondo
-    const miniaturasFondos = document.querySelectorAll('.miniaturaFondo');
-    miniaturasFondos.forEach(div => {div.classList.remove('seleccionada')});
-    const miniaturaPorDefecto = contenedorFondos.querySelector('.miniaturaFondo[data-imagen-id="1"]');
+    const miniaturasFondosNuevoPomodoro = panelNuevoPomodoro.querySelectorAll('.miniaturaFondo');
+    miniaturasFondosNuevoPomodoro.forEach(div => {div.classList.remove('seleccionada')});
+    const miniaturaPorDefecto = contenedorFondosNuevo.querySelector('.miniaturaFondo[data-imagen-id="1"]');
     if (miniaturaPorDefecto) miniaturaPorDefecto.classList.add('seleccionada');
 }
 
@@ -74,7 +76,6 @@ function mostrarOcultarSesiones(){
 
 function cargarMiniaturasSesiones(){
     const contenedorMiniaturasSesiones = document.getElementById('contenedorMiniaturasSesiones');
-    const manager = new PomodoroManager();
     const listaSesiones = manager.lista;
 
     let allMiniaturasSesiones = ``;
@@ -157,7 +158,7 @@ function cargarMiniaturasSesiones(){
         });
     });
 
-    //A todos los botones de borrar les agregamos el event listener
+    //A todos los botones de "borrar" les agregamos el event listener
     document.querySelectorAll('.botonBorrar').forEach((btn) =>{
         btn.addEventListener('click', ()=>{
             const idSesion  = btn.dataset.idsesion;
@@ -165,15 +166,30 @@ function cargarMiniaturasSesiones(){
             mostrarOcultarSesiones();
         });
     });
+
+    //A todos los botones de "editar" les agregamos el event listener
+    document.querySelectorAll('.botonEditar').forEach((btn) =>{
+        btn.addEventListener('click', ()=>{
+            const idSesion = btn.dataset.idsesion;
+            console.log('Quieres editar este elemento');
+            panelEditarPomodoro.classList.add('animado');   // <- habilita transición
+            panelEditarPomodoro.classList.add('abierto');
+            panelEditarPomodoro.dataset.idsesion=idSesion;
+            overlay.style.display='block';
+            cargarInformación(idSesion);
+        });
+    })
 }
 
-//VALIDACIONES DEL FORMULARIO
+//VALIDACIONES DEL FORMULARIO (Nuevo pomodoro)
 
 //Evitar que el nombre de la sesión sea muy largo
 const campoNombreSesion = document.getElementById("nombreSesion");
 campoNombreSesion.addEventListener('input', ()=>{
     eliminarExcesoCaracteres(campoNombreSesion);
 });
+
+//Evitar que el nombre de la sesión esté vacío
 campoNombreSesion.addEventListener('blur', ()=>{
     if (campoNombreSesion.value.length == 0){
         campoNombreSesion.classList.add('campoRojo');
@@ -211,11 +227,12 @@ descansoLargo.addEventListener('input', ()=>{
 descansoLargo.addEventListener('blur', ()=>{
     validarNumeroIngresado(descansoLargo);
 });
+
+
 //Obtenemos del DOM los valores para manipular la ventana modal de "Nueva sesión"
 const botonNuevaSesion = document.getElementById('btnNuevaSesion');
 const botonCerrarPanel = document.getElementById('cerrarPanel');
-const panel = document.getElementById('panelNuevoPomodoro');
-const contenedorFondos = document.getElementById('contenedorFondos');
+const contenedorFondos = document.querySelectorAll('.contenedorFondos');
 
 let fondosCargados = '';
 //recorremos el arreglo de fondos y los agregamos dentro de un div
@@ -232,7 +249,9 @@ utils.arrayFondos.forEach(imagen => {
     
 });
 //Cargamos al DOM todos nuestros fondos
-contenedorFondos.innerHTML= fondosCargados;
+contenedorFondos.forEach((contenedor)=>{
+    contenedor.innerHTML = fondosCargados;
+});
 
 //Delegación de eventos para saber si un elemento fue clickado
 /*    contenedorFondos.addEventListener('click', (e)=>{
@@ -242,10 +261,10 @@ contenedorFondos.innerHTML= fondosCargados;
     });
     */
 
-//Obtenemos todos los elementos que se llamen miniaturaFondo
-const miniaturasFondos = document.querySelectorAll('.miniaturaFondo'); 
-// Buscar la miniatura con id = 1 y marcarla como seleccionada
-const miniaturaPorDefecto = [...miniaturasFondos].find(
+//Obtenemos todos los elementos que se llamen miniaturaFondo en el formulario 'Nuevo pomodoro'
+const miniaturasFondosNuevoPomodoro = panelNuevoPomodoro.querySelectorAll('.miniaturaFondo'); 
+// Buscar la miniatura con id = 1
+const miniaturaPorDefecto = [...miniaturasFondosNuevoPomodoro].find(
   m => m.dataset.imagenId === '1'
 );
 
@@ -254,12 +273,12 @@ if (miniaturaPorDefecto) {
   miniaturaPorDefecto.classList.add('seleccionada');
 }
 
-//Al hacer clic sobre un fondo deseleccionamos todos y marcamos el nuevo fondo seleccionado
-miniaturasFondos.forEach(miniatura => {
+//Al hacer clic sobre un fondo del formulario 'Nuevo pomodoro' deseleccionamos todos y marcamos el nuevo fondo seleccionado
+miniaturasFondosNuevoPomodoro.forEach(miniatura => {
     miniatura.addEventListener('click', (e) => {
         const id = e.currentTarget.dataset.imagenId;
         //Deseleccionamos todas las imágenes
-        miniaturasFondos.forEach(imagen => {
+        miniaturasFondosNuevoPomodoro.forEach(imagen => {
             imagen.classList.remove('seleccionada');
         });
         miniatura.classList.add('seleccionada');
@@ -268,8 +287,8 @@ miniaturasFondos.forEach(miniatura => {
 
 //Abrimos el panel al hacer click sobre el botón de "Nueva sesión"
 botonNuevaSesion.addEventListener('click', ()=>{
-    panel.classList.add('animado');   // <- habilita transición
-    panel.classList.add('abierto');
+    panelNuevoPomodoro.classList.add('animado');   // <- habilita transición
+    panelNuevoPomodoro.classList.add('abierto');
     overlay.style.display='block';
     
 
@@ -282,33 +301,15 @@ botonNuevaSesion.addEventListener('click', ()=>{
 
 //Cerramos el panel
 botonCerrarPanel.addEventListener('click', ()=>{
-    panel.classList.add('animado');   // <- habilita transición
-    panel.classList.remove('abierto');
-    overlay.style.display='none';
-    iniciarTimeout();
-    
-});
-
-//Cerramos el panel al presionar ESC
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-    panel.classList.add('animado');   // <- habilita transición
-    panel.classList.remove('abierto');
-    overlay.style.display='none';
-    iniciarTimeout();
-  }
-});
-
-//Cerramos el panel si se hace clic en el overlay
-overlay.addEventListener('click', ()=>{
-    panel.classList.add('animado');   // <- habilita transición
-    panel.classList.remove('abierto');
+    panelNuevoPomodoro.classList.add('animado');   // <- habilita transición
+    panelNuevoPomodoro.classList.remove('abierto');
     overlay.style.display='none';
     iniciarTimeout();
 });
 
-panel.addEventListener('transitionend', () => {
-  panel.classList.remove('animado');
+//Event listener para eliminar la clase "animado" una vez ejecutada
+panelNuevoPomodoro.addEventListener('transitionend', () => {
+  panelNuevoPomodoro.classList.remove('animado');
 });
 
 //Timeout para restablecer el formulario en caso de cierre e inactividad
@@ -317,7 +318,7 @@ function iniciarTimeout(){
         const form = document.getElementById('formularioNuevoPomodoro');
         //Regresamos todos los campos del formulario a su estado original
         form.reset();
-        resetearSelecciónFondo();
+        resetearSelecciónFondoNuevoPomodoro();
 
         //Eliminamos los bordes rojos en caso de que lo haya
         const campoNombreSesion = document.getElementById("nombreSesion");
@@ -368,3 +369,176 @@ function validarNumeroIngresado(campo){
         campo.classList.remove('campoRojo');
     }
 }
+
+//Variables para el panel laterial (Editar Pomodoro)
+const cerrarPanelEditar = document.getElementById("cerrarPanelEditar");
+
+//Obtenemos todas la miniaturas del formulario "Editar pomodoro"
+const miniaturasFondosEditarPomodoro = panelEditarPomodoro.querySelectorAll(".miniaturaFondo");
+
+////Envío del formulario al guardar
+panelEditarPomodoro.addEventListener('submit', (e)=>{
+    e.preventDefault();
+
+    /*Obtenemos todos los campos de nuestro formulario a través de su propiedad NAME*/
+    const nombreSesionEditar = formularioEditarPomodoro.nombreSesionEditar.value;
+    const tiempoPomodoroEditar = parseInt(formularioEditarPomodoro.pomodoroEditar.value);
+    const tiempoDescansoCortoEditar = parseInt(formularioEditarPomodoro.descansoCortoEditar.value);
+    const tiempoDescansoLargoEditar = parseInt(formularioEditarPomodoro.descansoLargoEditar.value);
+    const fondoSeleccionadoEditar = panelEditarPomodoro.querySelector(".miniaturaFondo.seleccionada")?.dataset.imagenId;
+
+    //Obtenemos el id de la sesión que está en el data set del panel
+    const idSesion = panelEditarPomodoro.dataset.idsesion;
+
+    //Comprobamos que los inputs de tiempo tengan un valor distinto a 0
+    if( tiempoPomodoroEditar > 0  && tiempoDescansoCortoEditar > 0 && tiempoDescansoLargoEditar > 0 ){
+        //Actualizamos los valores de nuestro pomodoro
+        manager.editarPomodoro(idSesion, nombreSesionEditar, tiempoPomodoroEditar, tiempoDescansoCortoEditar, tiempoDescansoLargoEditar, fondoSeleccionadoEditar);
+        //Regresamos todos los campos del formulario a su estado original
+        formularioEditarPomodoro.reset();
+        resetearSelecciónFondoEditarPomodoro();
+        //Mostramos en el div contenedorSesiones la información correcta 
+        mostrarOcultarSesiones();
+        /*Cerramos el panel del formulario*/
+        panelEditarPomodoro.classList.add('animado');   // <- habilita transición
+        panelEditarPomodoro.classList.remove('abierto');
+        //Desactivamos el overlay
+        overlay.style.display='none';
+    }
+});
+
+//Obtenemos información de la sesión actual y la mostramos en los campos correspondientes
+function cargarInformación(idSesion){
+    //Obtenemos la información de la sesiónActual
+    const datosSesion = manager.buscarPomodoro(idSesion);
+
+    //Colocamos la información en el campo correspondiente
+    document.getElementById('nombreSesionEditar').value = datosSesion._nombre;
+    document.getElementById('pomodoroEditar').value = datosSesion._tiempoPomodoro;
+    document.getElementById('descansoCortoEditar').value = datosSesion._tiempoDescanso;
+    document.getElementById('descansoLargoEditar').value = datosSesion._tiempoDescansoLargo;
+
+    //Buscamos el div que contenga el id que necesitamos
+    const miniaturaEncontrada= [...miniaturasFondosEditarPomodoro].find(
+        m => m.dataset.imagenId === datosSesion._fondo
+    );
+
+    //Marcamos como seleccionada la miniatura por defecto (1)
+    if (miniaturaEncontrada) {
+    miniaturaEncontrada.classList.add('seleccionada');
+    }
+
+}
+
+//Función para resetear la selección del fondo en el formulario 'Nuevo pomodoro'
+function resetearSelecciónFondoEditarPomodoro(){    
+    miniaturasFondosEditarPomodoro.forEach(div => {div.classList.remove('seleccionada')});
+}
+
+//Al hacer clic sobre un fondo del formulario 'Editar pomodoro' deseleccionamos todos y marcamos el nuevo fondo seleccionado
+miniaturasFondosEditarPomodoro.forEach(miniatura => {
+    miniatura.addEventListener('click', (e) => {
+        const id = e.currentTarget.dataset.imagenId;
+        //Deseleccionamos todas las imágenes
+        miniaturasFondosEditarPomodoro.forEach(imagen => {
+            imagen.classList.remove('seleccionada');
+        });
+        miniatura.classList.add('seleccionada');
+    });
+});
+
+//Event listener para eliminar la clase "animado" una vez ejecutada
+panelEditarPomodoro.addEventListener('transitionend', () => {
+  panelEditarPomodoro.classList.remove('animado');
+});
+
+//Event listener al presionar el botón "cerrar"
+cerrarPanelEditar.addEventListener('click', ()=>{
+    panelEditarPomodoro.classList.add('animado');   // <- habilita transición
+    panelEditarPomodoro.classList.remove('abierto');
+    overlay.style.display='none';
+    resetearSelecciónFondoEditarPomodoro();
+});
+
+//Cerramos el panel al presionar ESC
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        //Si el formulario de "editar pomodoro" está abiero
+        if (panelEditarPomodoro.className === "panelDeslizable panelEditarPomodoro abierto") {
+            panelEditarPomodoro.classList.add('animado');   // <- habilita transición
+            panelEditarPomodoro.classList.remove('abierto');
+            overlay.style.display='none';
+            resetearSelecciónFondoEditarPomodoro();
+        //Si el formulario de "nuevo pomodoro" está abierto
+        } else if (panelNuevoPomodoro.className === "panelDeslizable panelNuevoPomodoro abierto"){
+            panelNuevoPomodoro.classList.add('animado');   // <- habilita transición
+            panelNuevoPomodoro.classList.remove('abierto');
+            overlay.style.display='none';
+            iniciarTimeout();
+        }
+  }
+});
+
+//Cerramos el panel si se hace clic en el overlay
+overlay.addEventListener('click', ()=>{
+    //Si el formulario de "editar pomodoro" está abiero
+    if (panelEditarPomodoro.className === "panelDeslizable panelEditarPomodoro abierto") {
+        panelEditarPomodoro.classList.add('animado');   // <- habilita transición
+        panelEditarPomodoro.classList.remove('abierto');
+        overlay.style.display='none';
+        resetearSelecciónFondoEditarPomodoro();
+    //Si el formulario de "nuevo pomodoro" está abierto
+    } else if (panelNuevoPomodoro.className === "panelDeslizable panelNuevoPomodoro abierto"){
+        panelNuevoPomodoro.classList.add('animado');   // <- habilita transición
+        panelNuevoPomodoro.classList.remove('abierto');
+        overlay.style.display='none';
+        iniciarTimeout();
+    }
+});
+
+//VALIDACIONES DEL FORMULARIO (Editar pomodoro)
+
+//Evitar que el nombre de la sesión sea muy largo
+const campoNombreSesionEditar = document.getElementById("nombreSesionEditar");
+campoNombreSesionEditar.addEventListener('input', ()=>{
+    eliminarExcesoCaracteres(campoNombreSesionEditar);
+});
+
+//Evitar que el nombre de la sesión esté vacío
+campoNombreSesionEditar.addEventListener('blur', ()=>{
+    if (campoNombreSesionEditar.value.length == 0){
+        campoNombreSesionEditar.classList.add('campoRojo');
+    }else{
+        campoNombreSesionEditar.classList.remove('campoRojo');
+    }
+});
+
+//Validación al tiempo del pomodoro
+const tiempoPomodoroEditar = document.getElementById("pomodoroEditar");
+tiempoPomodoroEditar.addEventListener('input', ()=>{
+    formatoNumero(tiempoPomodoroEditar);
+});
+
+tiempoPomodoroEditar.addEventListener('blur', ()=>{
+    validarNumeroIngresado(tiempoPomodoroEditar);
+});
+
+//Validación al tiempo del descanso corto
+const descansoCortoEditar = document.getElementById("descansoCortoEditar");
+descansoCortoEditar.addEventListener('input', ()=>{
+    formatoNumero(descansoCortoEditar);
+});
+
+descansoCortoEditar.addEventListener('blur', ()=>{
+    validarNumeroIngresado(descansoCortoEditar);
+});
+
+//Validación al tiempo del descanso largo
+const descansoLargoEditar = document.getElementById("descansoLargoEditar");
+descansoLargoEditar.addEventListener('input', ()=>{
+    formatoNumero(descansoLargoEditar);
+});
+
+descansoLargoEditar.addEventListener('blur', ()=>{
+    validarNumeroIngresado(descansoLargoEditar);
+});

@@ -32,6 +32,20 @@ export default class PomodoroManager {
         this.lista = this._lista;
     }
 
+    editarPomodoro(id, nombre, tiempoPomodoro, descansoCorto, descansoLargo, fondo){
+        const pomodoro = this._lista.find(p => p._id === Number(id));
+        if (pomodoro) {
+            pomodoro._nombre = nombre;
+            pomodoro._tiempoPomodoro = tiempoPomodoro;
+            pomodoro._tiempoDescanso = descansoCorto;
+            pomodoro._tiempoDescansoLargo = descansoLargo;
+            pomodoro._fondo = fondo;
+            
+            this.lista = this._lista; // persiste
+        }
+        return null;
+    }
+
     eliminarPomodoro(id){
         const index = this._lista.findIndex(p=> p._id === Number(id));
         if (index !== -1){
@@ -80,6 +94,12 @@ export default class PomodoroManager {
         if (!this._idSesionActual) return null;
         return this._lista.find(
         (p) => p._id === Number(this._idSesionActual)
+        ) || null;
+    }
+
+    buscarPomodoro(id) {
+        return this._lista.find(
+        (p) => p._id === Number(id)
         ) || null;
     }
 }

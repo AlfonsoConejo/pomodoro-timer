@@ -240,20 +240,19 @@ body{
 }
 
 /*FORMULARIO NUEVO POMODORO*/
-
-.panelNuevoPomodoro{
-    position: fixed;
-    top:0;
-    right: 0;
-    height: 100dvh;
-    height: -webkit-fill-available;
-    width: 500px;
-    background-color: var(--soft-gray);
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
-    transform: translateX(105%);  /* Oculto al inicio */
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
+.panelDeslizable{
+  position: fixed;
+  top:0;
+  right: 0;
+  height: 100dvh;
+  height: -webkit-fill-available;
+  width: 500px;
+  background-color: var(--soft-gray);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  transform: translateX(105%);  /* Oculto al inicio */
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
 }
 
 .panelNuevoPomodoro.animado{
@@ -264,8 +263,12 @@ body{
   transform: translateX(0);  /* Se muestra */
 }
 
-.panelNuevoPomodoro.cerrado {
-  transform: translateX(100%);  /* Se oculta */
+.panelEditarPomodoro.animado{
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+.panelEditarPomodoro.abierto {
+  transform: translateX(0);  /* Se muestra */
 }
 
 .cerrarPanel{
