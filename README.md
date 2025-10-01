@@ -7,6 +7,7 @@ En él puedes crear todos los Pomodoros que necesites, personalizarlos y selecci
 
 - **Gestión de sesiones**: crea, edita y elimina diferentes sesiones Pomodoro. 
 - **Validación de formularios**: evita que dejes campos vacíos o con valores inválidos.
+- **Botón flotante de 'Nueva sesión'**: siempre visible en la esquina inferior derecha.
 - **Persistencia en LocalStorage**: tus configuraciones y sesiones se guardan aunque cierres el navegador.
 - **Duraciones personalizables**: ajusta los minutos de trabajo, descansos cortos y descansos largos.
 - **Selección de fondos**: elige entre varias imágenes de fondo.
