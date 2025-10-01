@@ -10,7 +10,6 @@ const arrayFondos= [
     {id:9 , location: "assets/fondos/mountains-fog-trees.jpg"}
 ];
 
-
 export default {
     arrayFondos
 }

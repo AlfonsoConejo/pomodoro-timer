@@ -125,7 +125,7 @@ body{
   border-radius: 12px;
   height: 200px;
   width: 100%; /* que ocupe todo el ancho de su celda */
-  min-width: 229px;
+  min-width: 270px;
   background-size: cover;
   background-position: center;
 }
@@ -210,7 +210,7 @@ body{
     margin: 5px 0px;
     padding: 6px;
     height: 35px;
-    width: 150px;
+    width: 110px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -489,19 +489,19 @@ footer img {
 }
 
 
-@media (max-width: 1387px){
+@media (max-width: 1430px){
   .contenedorMiniaturasSesiones{
     grid-template-columns: repeat(3, 1fr); /* 3 columnas*/
   }
 }
 
-@media (max-width: 1050px){
+@media (max-width: 1080px){
   .contenedorMiniaturasSesiones{
     grid-template-columns: repeat(2, 1fr); /* 2 columnas */
   }
 }
 
-@media (max-width: 714px){
+@media (max-width: 734px){
   .contenedorMiniaturasSesiones{
     grid-template-columns: repeat(1, 1fr);
   }
@@ -513,7 +513,7 @@ footer img {
   }
 }
 
-@media (max-width: 375px){
+@media (max-width: 384px){
   .abrirSesion > p{
     display: none;
   }
@@ -537,7 +537,7 @@ footer img {
 
 
 @media (max-width: 535px){
-  .panelNuevoPomodoro {
+  .panelNuevoPomodoro, .panelEditarPomodoro {
     position: fixed;
     top:0;
     right: 0;
@@ -546,7 +546,7 @@ footer img {
     box-shadow: none;
   }
 
-  .panelNuevoPomodoro.abierto {
+  .panelNuevoPomodoro.abierto, .panelEditarPomodoro.abierto {
     transform: translateY(0);  /* Se muestra */
   }
 
