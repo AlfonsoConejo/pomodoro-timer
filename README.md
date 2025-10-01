@@ -19,6 +19,12 @@ En él puedes crear todos los Pomodoros que necesites, personalizarlos y selecci
 
 ## Retos y Aprendizajes
 
+- Uso de CSS Grid y Flexbox para ordenar y estructurar los elementos.
+- Mostrar la hora actual sincronizada con la hora de la computadora.
+- Manejo de temporizadores con setTimeout y setInterval.
+- Envío y manipulación de información mediante datasets.
+- Event listeners para controlar eventos del usuario.
+- Funciones para manejar arreglos de objetos.
 - Programación orientada a objetos para manejar la lógica de cada sesión.
 - Reutilización de código y modularización.
 - Buenas prácticas de manipulación del DOM.
