@@ -3,6 +3,11 @@
 Este es un temporizador Pomodoro desarrollado desde cero con **JavaScript orientado a objetos**, pensado para ser funcional y más atractivo que las alternativas que suelen encontrarse en internet.
 En él puedes crear todos los Pomodoros que necesites, personalizarlos y seleccionar el que necesites desde el panel "**Todas mis sesiones**".
 
+<img width="1920" height="913" alt="imagen" src="https://github.com/user-attachments/assets/f5ad4674-5a01-4606-af5d-959df3d961df" />
+
+
+<img width="1920" height="913" alt="imagen" src="https://github.com/user-attachments/assets/9e078cd2-f2c0-4e22-80b5-60a8f130ec39" />
+
 ## Características
 
 - **Gestión de sesiones**: crea, edita y elimina diferentes sesiones Pomodoro. 
