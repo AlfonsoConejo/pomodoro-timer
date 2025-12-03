@@ -6,7 +6,9 @@ En él puedes crear todos los Pomodoros que necesites, personalizarlos y selecci
 <img width="1920" height="913" alt="imagen" src="https://github.com/user-attachments/assets/f5ad4674-5a01-4606-af5d-959df3d961df" />
 
 
-<img width="1920" height="913" alt="imagen" src="https://github.com/user-attachments/assets/9e078cd2-f2c0-4e22-80b5-60a8f130ec39" />
+
+<img width="1920" height="913" alt="imagen" src="https://github.com/user-attachments/assets/09022cb1-75b4-43f7-996e-4360f065833a" />
+
 
 ## Características
 
